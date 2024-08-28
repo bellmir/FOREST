@@ -11,21 +11,21 @@
 					<table class="g_table goalTable">
 						<tr>
 							<th></th>
-							<th>목표 배출량</th>
-							<th>현재 배출량</th>
-							<th>목표 달성률</th>
+							<th>산업 평균 탄소 효율</th>
+							<th>현재 탄소 효율</th>
+							<th>차이값</th>
 						</tr>
 						<tr>
 							<th>연별</th>
-							<td>960,000kg</td>
-							<td>540,300kg</td>
-							<td class="success">80%</td>
+							<td>960,000 kg/원</td>
+							<td>540,000 kg/원</td>
+							<td class="success">420,000 kg/원</td>
 						</tr>
 						<tr>
 							<th>월별</th>
-							<td>80,000kg</td>
-							<td>80,200kg</td>
-							<td class="danger">102%</td>
+							<td>80,000 kg/원</td>
+							<td>80,200 kg/원</td>
+							<td class="danger">200 kg/원</td>
 						</tr>
 					</table>
 				</div>
@@ -257,8 +257,6 @@ const monthlyChartOption = {
 				}
 			}
 			.box_content {
-				.inventoryBrief_table {
-				}
 			}
 		}
 	}

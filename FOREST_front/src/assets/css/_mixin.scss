@@ -2,7 +2,8 @@
 // mainContainer 스타일링
 @mixin mixin_mainContainer {
 	position: relative;
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: var(--space-x-large);
 	min-height: 100vh;
 	width: 100%;

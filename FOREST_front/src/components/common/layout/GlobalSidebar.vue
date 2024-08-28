@@ -42,7 +42,7 @@
 					<span class="icon_wrap">
 						<IconLeftMenuInventory />
 					</span>
-					<p>재고이동서비스</p>
+					<p>재고 이동 서비스</p>
 				</router-link>
 			</li>
 		</ul>

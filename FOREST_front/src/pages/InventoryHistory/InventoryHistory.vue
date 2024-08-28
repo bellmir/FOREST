@@ -39,7 +39,15 @@
 					header="상품 번호"
 				>
 				</Column>
-				<Column field="division" bodyStyle="width: 6rem; min-width: 5rem" header="구분"></Column>
+				<Column field="division" bodyStyle="width: 6rem; min-width: 5rem" header="구분">
+					<template #body="{ data }">
+						<span
+							class="division"
+							:class="{ incoming: data.division === '출고', outcoming: data.division === '입고' }"
+							>{{ data.division }}</span
+						>
+					</template>
+				</Column>
 				<Column field="category" bodyStyle="width: 7rem; min-width: 6rem" header="카테고리"></Column>
 				<Column field="product_name" bodyStyle="width: 28rem; min-width: 15rem" header="상품명"> </Column>
 				<Column field="amount" bodyStyle="width: 12rem; min-width: 9rem; word-break: break-all;" header="개수">
@@ -111,6 +119,16 @@ const data = ref(
 			gap: var(--space-small);
 			@media screen and (max-width: 768px) {
 				flex-direction: column;
+			}
+		}
+	}
+	.searchResult {
+		.division {
+			&.incoming {
+				color: var(--color-danger);
+			}
+			&.outcoming {
+				color: var(--color-success);
 			}
 		}
 	}

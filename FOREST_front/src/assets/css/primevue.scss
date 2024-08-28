@@ -240,3 +240,16 @@ textarea.p-textarea {
 	font-size: var(--font-s-x-small);
 }
 // tooltip END
+
+// toast START
+.p-toast-message-icon {
+	margin-top: 0.7ch;
+}
+.p-toast-summary {
+	--p-toast-summary-font-size: var(--font-s-x-small);
+}
+.p-toast-detail {
+	--p-toast-error-detail-color: var(--color-danger);
+	--p-toast-detail-font-size: var(--font-s-2x-small);
+}
+// toast END

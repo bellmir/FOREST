@@ -2,7 +2,7 @@
 
 /* -------------------- root START -------------------- */
 :root {
-	--color-primary: #222; /* 메인 컬러 */
+	--color-primary: #2bae66; /* 메인 컬러 */
 	--color-primary-contrast: #fff; /* 메인 컬러 콘트라스트 */
 	--color-secondary: #5c6876; /* 서브 컬러 */
 	--color-secondary-contrast: #fff; /* 서브 컬러 콘트라스트 */
@@ -84,7 +84,7 @@
 	--transition-slower: 0.5s;
 
 	/* 기타 */
-	--box-shadow: 0.8rem 1.6rem 1.6rem hsl(0deg 0% 0% / 0.02); /* 기본 박스 그림자 */
+	--box-shadow: 0.2rem 0.2rem 1rem rgba(151, 151, 151, 0.2); /* 기본 박스 그림자 */
 	--box-shadow-list: 0px 3px 3px 0px #0000000a;
 	--blue-bg-gradient: linear-gradient(315deg, rgba(18, 110, 232, 1) 0%, rgba(107, 88, 203, 1) 80%);
 
@@ -107,8 +107,8 @@ html {
 body {
 	@include mixin_defaultText;
 	@include mixin_scrollbar($track-background: var(--color-base-brand)); // 스크롤바 스타일
-	-webkit-touch-callout: none;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0); // 모바일 클릭 시 하이라이트 제거
+	// -webkit-touch-callout: none;
+	// -webkit-tap-highlight-color: rgba(0, 0, 0, 0); // 모바일 클릭 시 하이라이트 제거
 }
 ::placeholder {
 	color: var(--color-font-placeholder);

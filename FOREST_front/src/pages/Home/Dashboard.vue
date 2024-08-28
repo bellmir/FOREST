@@ -240,7 +240,7 @@ const monthlyChartOption = {
 			grid-template-columns: 1fr;
 		}
 		.inventoryBrief_box {
-			@include mixin_box(true);
+			@include mixin_box;
 			.g_boxTitle {
 				display: flex;
 				align-items: center;

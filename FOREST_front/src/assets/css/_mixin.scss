@@ -2,16 +2,18 @@
 // mainContainer 스타일링
 @mixin mixin_mainContainer {
 	position: relative;
+	display: grid;
+	gap: var(--space-x-large);
 	min-height: 100vh;
 	width: 100%;
 	flex-grow: 1;
-	padding: var(--space-x-large);
+	padding: var(--space-2x-large) var(--space-x-large);
 	background-color: var(--color-base-brand);
 	transition-duration: var(--transition-slow);
 	overflow-x: hidden;
 	@media screen and (max-width: 1024px) {
 		margin-top: var(--header-height);
-		padding: var(--space-large);
+		padding: var(--space-x-large) var(--space-large);
 	}
 	@media screen and (max-width: 768px) {
 		padding: var(--space-large) var(--space-mid);
@@ -30,14 +32,11 @@
 	margin: 0 auto;
 	padding: 0 2rem;
 }
-@mixin mixin_box($gap: false) {
+@mixin mixin_box {
 	background-color: #fff;
 	padding: var(--space-2x-large);
 	border-radius: var(--border-radius-large);
 	box-shadow: var(--box-shadow);
-	@if ($gap) {
-		margin-top: var(--space-2x-large);
-	}
 	@media screen and (max-width: 1024px) {
 		padding: var(--space-2x-large) var(--space-large);
 	}

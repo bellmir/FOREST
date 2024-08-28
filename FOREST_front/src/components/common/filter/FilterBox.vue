@@ -50,7 +50,7 @@ const isOpen = ref(window.innerWidth > 768);
 
 <style scoped lang="scss">
 .FilterBox {
-	@include mixin_mypageBox;
+	@include mixin_box;
 
 	@media screen and (max-width: 768px) {
 		// padding: 0;
@@ -123,11 +123,11 @@ const isOpen = ref(window.innerWidth > 768);
 							fill: currentColor;
 						}
 						&.btn_reset {
-							@include mixin_button($theme: 'point', $size: 'small', $radius: 'mid');
+							@include mixin_button($theme: 'primary', $size: 'small', $radius: 'mid');
 							gap: 0.5rem;
 						}
 						&.btn_search {
-							@include mixin_button($theme: 'point', $style: 'fill', $size: 'small', $radius: 'mid');
+							@include mixin_button($theme: 'primary', $style: 'fill', $size: 'small', $radius: 'mid');
 							gap: 0.5rem;
 						}
 					}

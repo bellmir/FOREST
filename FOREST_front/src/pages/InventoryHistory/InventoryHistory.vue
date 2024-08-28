@@ -1,7 +1,7 @@
 <template>
 	<main class="InventoryHistory">
 		<h1 class="g_pageTitle">입출고내역</h1>
-		<FilterBox class="searchFilter">
+		<FilterBox class="searchFilter" @onSearch="onSearch" @onInit="onInit">
 			<FilterOptionDate
 				v-model:dateMode="filterDateMode"
 				v-model:startDate="filterStartDate"
@@ -50,9 +50,7 @@
 				</Column>
 				<Column field="category" bodyStyle="width: 7rem; min-width: 6rem" header="카테고리"></Column>
 				<Column field="product_name" bodyStyle="width: 28rem; min-width: 15rem" header="상품명"> </Column>
-				<Column field="amount" bodyStyle="width: 12rem; min-width: 9rem; word-break: break-all;" header="개수">
-					<template #body="{ data }">{{ data.amount ? `${data.amount}원` : '-' }}</template>
-				</Column>
+				<Column field="count" bodyStyle="width: 12rem; min-width: 9rem; word-break: break-all;" header="개수"> </Column>
 			</template>
 		</TableBox>
 	</main>
@@ -60,7 +58,7 @@
 
 <script setup lang="ts">
 // core
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // components
 import FilterBox from '@/components/common/filter/FilterBox.vue';
@@ -71,6 +69,8 @@ import FilterOptionDate from '@/components/common/filter/FilterOptionDate.vue';
 // primevue
 import Column from 'primevue/column';
 import Select from 'primevue/select';
+// api
+import { useGetInventoryHistory } from '@/api/inventoryHistoryApi';
 
 const route = useRoute();
 const router = useRouter();
@@ -89,6 +89,20 @@ const filterCategory = ref(); // 항목 필터
 const searchCategory = ref('상품명'); // 검색 카테고리
 const search = ref(''); // 검색어
 
+// const { data: inventoryHistoryData, isLoading: isGetInventoryHistoryLoading } = useGetInventoryHistory(
+// 	computed(() => ({
+// 		page: Number(route.query.page ?? 1),
+// 		row: Number(route.query.row ?? 10),
+// 		// startDate: filterStartDate.value,
+// 		// endDate: filterEndDate.value,
+// 		// state: filterState.value,
+// 		// division: filterDivision.value,
+// 		// category: filterCategory.value,
+// 		// searchCategory: searchCategory.value,
+// 		// search: search.value,
+// 	}))
+// );
+
 const data = ref(
 	Array(100)
 		.fill({
@@ -97,7 +111,7 @@ const data = ref(
 			category: '여성의류',
 			division: '입고',
 			product_name: '셀린 자수 배색 스트라이프 티셔츠',
-			amount: '1,000',
+			count: '1,000',
 			enrollment_date: '2024-08-20',
 		})
 		.map((item, index) => ({ ...item, product_pk: index + 1 }))
@@ -108,6 +122,25 @@ const data = ref(
 			return item;
 		})
 );
+
+const onSearch = () => {
+	router.push({
+		query: {
+			page: 1,
+			row: 10,
+			// startDate: filterStartDate.value,
+			// endDate: filterEndDate.value,
+			// state: filterState.value,
+			// division: filterDivision.value,
+			// category: filterCategory.value,
+			// searchCategory: searchCategory.value,
+			// search: search.value,
+		},
+	});
+};
+const onInit = () => {
+	console.log('onInit');
+};
 </script>
 
 <style scoped lang="scss">

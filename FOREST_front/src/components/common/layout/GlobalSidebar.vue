@@ -45,6 +45,16 @@
 					<p>재고 이동 서비스</p>
 				</router-link>
 			</li>
+
+			<!--ESG 보고서-->
+			<li id="ESGReport" :class="selectedMenu === 'ESGReport' && 'on'" @click="onSelectMenu('ESGReport')">
+				<router-link to="/ESGReport">
+					<span class="icon_wrap">
+						<IconLeftMenuReport />
+					</span>
+					<p>ESG 보고서</p>
+				</router-link>
+			</li>
 		</ul>
 
 		<div class="bottomInfo">
@@ -69,6 +79,7 @@
 import IconLeftMenuDashboard from '@/assets/image/sidebar/icon_dashboard.svg?component';
 import IconLeftMenuHistory from '@/assets/image/sidebar/icon_history.svg?component';
 import IconLeftMenuInventory from '@/assets/image/sidebar/icon_inventory.svg?component';
+import IconLeftMenuReport from '@/assets/image/sidebar/icon_report.svg?component';
 //vue core
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';

@@ -49,6 +49,20 @@ const routes = [
 		component: () => import('@/pages/InventoryMove/InventoryMove.vue'),
 		beforeEnter: [checkLogin],
 	},
+	{
+		// ESG 보고서
+		path: '/ESGReport',
+		name: 'ESGReport',
+		component: () => import('@/pages/ESGReport/ESGReport.vue'),
+		beforeEnter: [checkLogin],
+	},
+	{
+		// ESG 보고서 상세
+		path: '/ESGReport/ESGReportDetail/:reportPk?',
+		name: 'ESGReportDetail',
+		component: () => import('@/pages/ESGReport/ESGReportDetail.vue'),
+		beforeEnter: [checkLogin],
+	},
 
 	{
 		// 로그인 페이지

@@ -88,6 +88,10 @@ import Chart from 'primevue/chart';
 // image
 import IncomingIcon from '@/assets/image/dashboard/incoming.svg?component';
 import OutgoingIcon from '@/assets/image/dashboard/outgoing.svg?component';
+// api
+import { useGetDashboard } from '@/api/dashboardApi';
+
+// const { data: dashboardData, isLoading: isGetDashboardLoading } = useGetDashboard();
 
 const documentStyle = getComputedStyle(document.body);
 

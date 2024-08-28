@@ -9,15 +9,15 @@
 					<div class="FieldLayout">
 						<label>아이디</label>
 						<div class="field">
-							<InputText v-model="member_id" placeholder="test@test.com" />
+							<InputText v-model="email" placeholder="test@test.com" />
 						</div>
-						<p v-if="errors.member_id" class="errorText">{{ errors.member_id }}</p>
+						<p v-if="errors.email" class="errorText">{{ errors.email }}</p>
 					</div>
 					<div class="FieldLayout">
 						<label>비밀번호</label>
 						<div class="field">
 							<Password
-								v-model="member_password"
+								v-model="password"
 								@keyup.enter="onSubmitLogin"
 								showToggle
 								fluid
@@ -25,7 +25,7 @@
 								placeholder="8~20자 영문, 숫자, 특수문자 조합 입력"
 							/>
 						</div>
-						<p v-if="errors.member_password" class="errorText">{{ errors.member_password }}</p>
+						<p v-if="errors.password" class="errorText">{{ errors.password }}</p>
 					</div>
 				</div>
 				<nav class="extraMenu">
@@ -58,46 +58,67 @@ import { passRegex } from '@/data/regex';
 import { useTokenStore } from '@/stores/token';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
+// api
+import { useLogin } from '@/api/authApi';
 
 const router = useRouter();
 const tokenStore = useTokenStore();
 const toast = useToast();
 
-const isLoginPending = ref(false);
-const timeId = ref();
+// const isLoginPending = ref(false);
+// const timeId = ref();
+
+const { mutateAsync: login, isPending: isLoginPending } = useLogin();
 
 const { meta, errors, defineField, handleSubmit } = useForm({
 	validationSchema: yup.object({
-		member_id: yup.string().required('필수 입력 항목입니다.').email('아이디는 이메일 형식이어야합니다.'),
-		member_password: yup
+		email: yup.string().required('필수 입력 항목입니다.').email('아이디는 이메일 형식이어야합니다.'),
+		password: yup
 			.string()
 			.required('필수 입력 항목입니다.')
 			.matches(passRegex, '8~20자의 영문, 숫자, 특수문자 조합으로 입력해주세요.'),
 	}),
 });
-const [member_id] = defineField('member_id');
-const [member_password] = defineField('member_password');
+const [email] = defineField('email');
+const [password] = defineField('password');
 
 // 로그인 클릭시
 const onSubmitLogin = handleSubmit(async (values: any) => {
-	isLoginPending.value = true;
-	clearTimeout(timeId.value);
-	timeId.value = setTimeout(() => {
-		if (values.member_id === 'test@test.com' && values.member_password === 'test1234!') {
-			tokenStore.setAccessToken('testToken');
-			toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
-			router.push('/');
-		} else {
-			toast.add({
-				severity: 'error',
-				summary: '실패',
-				detail: '사용자 정보가 일치하지 않습니다.',
-				group: 'bc',
-				life: 3000,
-			});
-		}
-		isLoginPending.value = false;
-	}, Math.ceil(Math.random() * 300));
+	if (isLoginPending) return;
+
+	const res = await login(values);
+
+	if (res.data.success) {
+		tokenStore.setAccessToken(res.data.data.access_token);
+		toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
+		router.push('/');
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: '실패',
+			detail: '사용자 정보가 일치하지 않습니다.',
+			group: 'bc',
+			life: 3000,
+		});
+	}
+	// isLoginPending.value = true;
+	// clearTimeout(timeId.value);
+	// timeId.value = setTimeout(() => {
+	// 	if (values.email === 'test@test.com' && values.password === 'test1234!') {
+	// 		tokenStore.setAccessToken('testToken');
+	// 		toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
+	// 		router.push('/');
+	// 	} else {
+	// 		toast.add({
+	// 			severity: 'error',
+	// 			summary: '실패',
+	// 			detail: '사용자 정보가 일치하지 않습니다.',
+	// 			group: 'bc',
+	// 			life: 3000,
+	// 		});
+	// 	}
+	// 	isLoginPending.value = false;
+	// }, Math.ceil(Math.random() * 300));
 });
 </script>
 

@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
-    "hardhat": "^2.22.9"
+    "hardhat": "^2.22.9",
+    "viem": "^2.20.1"
   }
 }

@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<nav class="extraMenu">
-					<router-link to="">아이디 찾기</router-link>
+					<router-link to="">서비스 가입 문의</router-link>
 					<span class="divider"></span>
 					<router-link to="">비밀번호 찾기</router-link>
 					<span class="divider"></span>
@@ -47,6 +47,8 @@
 // core
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+// primevue
+import { useToast } from 'primevue/usetoast';
 // vee-validate
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -59,6 +61,7 @@ import Password from 'primevue/password';
 
 const router = useRouter();
 const tokenStore = useTokenStore();
+const toast = useToast();
 
 const isLoginPending = ref(false);
 const timeId = ref();
@@ -80,12 +83,18 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 	isLoginPending.value = true;
 	clearTimeout(timeId.value);
 	timeId.value = setTimeout(() => {
-		if (values.member_id === 'jack.park@devercorp.com' && values.member_password === 'devercorp3!') {
+		if (values.member_id === 'test@test.com' && values.member_password === 'test1234!') {
 			tokenStore.setAccessToken('testToken');
-			alert('로그인 되었습니다.');
+			toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
 			router.push('/');
 		} else {
-			alert('사용자 정보가 일치하지 않습니다.');
+			toast.add({
+				severity: 'error',
+				summary: '실패',
+				detail: '사용자 정보가 일치하지 않습니다.',
+				group: 'bc',
+				life: 3000,
+			});
 		}
 		isLoginPending.value = false;
 	}, Math.ceil(Math.random() * 300));
@@ -184,6 +193,8 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 }
 .Login {
 	@include mixin_mainContainer; // mainContainer 적용
+	margin-top: 0;
+	height: 100vh;
 	.loginForm {
 		@include mixin_section; // section 적용
 

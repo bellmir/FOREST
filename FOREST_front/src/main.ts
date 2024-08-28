@@ -16,6 +16,7 @@ import App from './App.vue';
 import '@/assets/css/reset.css';
 import '@/assets/css/global.scss';
 import '@/assets/css/ckeditor.scss';
+import '@/assets/css/primevue.scss';
 // 스와이퍼 register
 import { register } from 'swiper/element/bundle';
 register();

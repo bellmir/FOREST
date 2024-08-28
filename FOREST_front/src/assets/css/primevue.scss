@@ -1,0 +1,255 @@
+:root {
+	--primary-color: var(--color-primary);
+	--primary-text-color: var(--color-primary);
+	--primary-hover-color: var(--color-primary);
+	--primary-contrast-color: var(--color-primary-contrast);
+	--text-color: var(--color-font-dark);
+	--p-content-hover-background: var(--color-point-effect);
+	--p-form-field-placeholder-color: var(--color-font-placeholder);
+}
+
+// placeholder
+.p-placeholder {
+	--p-select-placeholder-color: var(--color-font-placeholder);
+}
+
+// input START
+input.p-inputtext {
+	--p-inputtext-placeholder-color: var(--color-font-placeholder);
+	--p-inputtext-disabled-background: var(--color-base-disabled);
+	--p-inputtext-disabled-color: var(--color-disabled);
+	--p-inputtext-border-color: var(--color-border-mid);
+	--p-inputtext-hover-border-color: var(--color-border-mid);
+	--p-inputtext-focus-border-color: var(--color-border-dark);
+	--p-inputtext-invalid-border-color: var(--color-danger);
+	--p-inputtext-border-radius: var(--border-radius-mid);
+	--p-inputtext-shadow: none;
+	--p-inputtext-padding-x: var(--space-small);
+	--p-inputtext-padding-y: var(--space-x-small);
+	--p-inputtext-background: transparent;
+	--p-inputtext-color: var(--color-font-dark);
+	font: inherit;
+	line-height: 1.15;
+	height: var(--common-height);
+	&:read-only {
+		cursor: default;
+		--p-inputtext-focus-border-color: var(--color-border-mid);
+	}
+}
+.p-inputtext.p-invalid:enabled:hover,
+.p-inputtext.p-invalid:enabled:focus {
+	border-color: var(--p-inputtext-invalid-border-color);
+}
+// input END
+
+// textarea START
+textarea.p-textarea {
+	--p-textarea-color: var(--color-font-dark);
+	--p-textarea-background: transparent;
+	--p-textarea-border-radius: var(--border-radius-mid);
+	--p-textarea-disabled-color: var(--color-disabled);
+	--p-textarea-disabled-background: var(--color-base-disabled);
+	--p-textarea-border-color: var(--color-border-mid);
+	--p-textarea-invalid-border-color: var(--color-danger);
+	--p-textarea-placeholder-color: var(--color-font-placeholder);
+	--p-textarea-padding-x: var(--space-small);
+	--p-textarea-padding-y: var(--space-x-small);
+	--p-textarea-hover-border-color: var(--color-border-mid);
+	--p-textarea-focus-border-color: var(--color-border-dark);
+	font: inherit;
+	&:read-only {
+		cursor: default;
+		--p-textarea-focus-border-color: var(--color-border-mid);
+	}
+}
+.p-textarea.p-invalid:enabled:hover,
+.p-textarea.p-invalid:enabled:focus {
+	border-color: var(--p-textarea-invalid-border-color);
+}
+// textarea END
+
+// select START
+.p-select {
+	--p-select-padding-x: var(--space-small);
+	--p-select-border-radius: var(--border-radius-mid);
+	--p-select-hover-border-color: var(--color-border-mid);
+	--p-select-color: currentColor;
+	--p-select-background: transparent;
+	--p-select-border-color: var(--color-border-mid);
+	height: var(--common-height);
+	.p-select-label {
+		display: flex;
+		align-items: center;
+		padding: var(--space-2x-small) var(--space-small);
+		vertical-align: middle;
+	}
+}
+.p-select-overlay {
+	--p-select-overlay-border-radius: var(--border-radius-mid);
+	--p-select-overlay-background: #fff;
+	--p-select-overlay-color: var(--color-font-dark);
+	--p-select-option-focus-color: var(--color-font-dark);
+	margin-top: 4px !important;
+}
+.p-select-option {
+	--p-select-option-focus-background: var(--color-point-effect);
+	--p-select-option-selected-focus-background: var(--color-point-effect);
+	--p-select-option-selected-focus-color: var(--color-point);
+	--p-select-option-selected-background: transparent;
+	--p-select-option-selected-color: var(--color-point);
+	--p-select-option-color: currentColor;
+	--p-select-option-padding: var(--space-x-small) var(--space-small);
+}
+.p-select-list-container {
+	@include mixin_scrollbar;
+}
+// select END
+
+// datepicker START
+.p-datepicker-input-icon-container {
+	--p-icon-size: 1em;
+	--p-datepicker-input-icon-color: var(--gray700);
+	line-height: 1;
+}
+.p-datepicker-panel {
+	--p-disabled-opacity: 0.3;
+	max-width: 30rem;
+	--p-datepicker-panel-background: #fff;
+	--p-datepicker-header-background: #fff;
+	--p-datepicker-header-color: var(--color-font-dark);
+	--p-datepicker-select-month-color: var(--color-font-dark);
+	--p-datepicker-select-year-color: var(--color-font-dark);
+	--p-content-background: #fff;
+	--p-datepicker-panel-color: var(--color-font-dark);
+	--p-datepicker-date-color: var(--color-font-dark);
+	--p-datepicker-date-selected-color: var(--color-primary-contrast);
+	--p-datepicker-today-background: var(--color-point-effect);
+	--p-datepicker-today-color: var(--color-font-dark);
+}
+// datepicker END
+
+// checkbox START
+.p-radiobutton {
+	--p-radiobutton-width: 1em;
+	--p-radiobutton-height: 1em;
+	.p-radiobutton-box {
+		--p-radiobutton-border-color: var(--color-border-mid);
+		--p-radiobutton-hover-border-color: var(--color-border-mid);
+		--p-radiobutton-border-color: var(--color-border-mid);
+		--p-radiobutton-hover-border-color: var(--color-border-mid);
+		--p-radiobutton-checked-border-color: var(--color-border-mid);
+		--p-radiobutton-checked-hover-border-color: var(--color-border-mid);
+		--p-radiobutton-checked-background: var(--color-primary-contrast);
+		--p-radiobutton-checked-hover-background: var(--color-primary-contrast);
+		--p-radiobutton-icon-checked-hover-color: var(--color-primary);
+		--p-radiobutton-icon-checked-color: var(--color-primary);
+	}
+}
+// checkbox END
+
+// datatable START
+.p-datatable {
+	--p-datatable-header-cell-padding: var(--space-x-small);
+	--p-datatable-body-cell-padding: var(--space-x-small);
+	--p-checkbox-width: 1em;
+	--p-checkbox-height: 1em;
+	--p-datatable-row-selected-background: var(--color-point-effect);
+	--p-datatable-row-selected-color: currentColor;
+	--p-datatable-body-cell-selected-border-color: var(--color-border-mid);
+	--p-datatable-body-cell-border-color: var(--color-border-mid);
+	--p-datatable-row-background: #fff;
+	--p-datatable-row-hover-background: var(--color-base-light);
+	--p-datatable-row-hover-color: currentColor;
+	--p-mask-background: rgba(0, 0, 0, 0.25);
+	--p-datatable-row-color: var(--color-font-dark);
+	--p-datatable-header-cell-color: var(--color-font-dark);
+	--p-datatable-header-cell-background: #fff;
+	--p-datatable-column-title-font-weight: var(--font-w-mid);
+	.p-datatable-table-container {
+		@include mixin_scrollbar($track-background: var(--color-base-mid), $thumb-background: rgba(34, 34, 34, 0.2));
+	}
+	.p-datatable-table {
+		border-collapse: separate;
+		.p-datatable-header-cell {
+			border-top: 1px solid var(--color-border-mid);
+			text-align: center;
+			vertical-align: middle;
+			padding: var(--space-small) var(--space-x-small);
+			font-size: var(--font-s-small);
+			line-height: 1.2;
+			word-break: keep-all;
+			text-wrap: balance;
+			@media screen and (max-width: 768px) {
+				font-size: var(--font-s-2x-small);
+			}
+			.p-datatable-column-header-content {
+				justify-content: center;
+			}
+		}
+		.p-datatable-tbody > tr {
+			transition: background-color var(--transition-fast);
+			&.p-datatable-selectable-row {
+				cursor: pointer;
+			}
+			&[data-p-selected='true'] {
+				--p-datatable-row-hover-background: var(--color-point-effect);
+				background: var(--color-point-effect);
+			}
+		}
+		.p-datatable-tbody > tr > td {
+			vertical-align: middle;
+			padding: var(--space-small) var(--space-x-small);
+			font-size: var(--font-s-x-small);
+			text-align: center;
+			line-height: 1.2;
+			text-wrap: pretty;
+			@media screen and (max-width: 768px) {
+				font-size: var(--font-s-2x-small);
+			}
+		}
+	}
+	.p-radiobutton,
+	.p-checkbox {
+		vertical-align: middle;
+	}
+	.p-radiobutton {
+		--p-radiobutton-width: 2rem;
+		--p-radiobutton-height: 2rem;
+		--p-radiobutton-icon-size: 0.75rem;
+		--p-radiobutton-background: #fff;
+		@media screen and (max-width: 768px) {
+			--p-radiobutton-width: 1.8rem;
+			--p-radiobutton-height: 1.8rem;
+			--p-radiobutton-icon-size: 0.67rem;
+		}
+	}
+}
+// datatable END
+
+// tooltip START
+.p-tooltip {
+	--p-tooltip-max-width: 30rem;
+	--p-tooltip-background: #fff;
+	--p-tooltip-color: var(--color-font-dark);
+	--p-tooltip-padding: var(--space-x-small);
+	line-height: 1.4;
+	word-break: keep-all;
+	text-wrap: pretty;
+}
+.p-tooltip-text {
+	font-size: var(--font-s-x-small);
+}
+// tooltip END
+
+// toast START
+.p-toast-message-icon {
+	margin-top: 0.7ch;
+}
+.p-toast-summary {
+	--p-toast-summary-font-size: var(--font-s-x-small);
+}
+.p-toast-detail {
+	--p-toast-error-detail-color: var(--color-danger);
+	--p-toast-detail-font-size: var(--font-s-2x-small);
+}
+// toast END

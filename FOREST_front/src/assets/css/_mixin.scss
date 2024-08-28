@@ -1,13 +1,20 @@
 // ------------------------------ layout START ------------------------------
 // mainContainer 스타일링
-@mixin mixin_mainContainer($isFull: false, $background: var(--color-base-brand)) {
-	background-color: $background;
-	// * isFull이 true일 경우 화면 꽉채움, false일 경우 header 높이만큼 띄움
-	@if ($isFull) {
-		min-height: min(100rem, 100svh);
-	} @else {
-		min-height: min(100rem, calc(100svh - var(--header-height)));
+@mixin mixin_mainContainer {
+	position: relative;
+	min-height: 100vh;
+	width: 100%;
+	flex-grow: 1;
+	padding: var(--space-x-large);
+	background-color: var(--color-base-light);
+	transition-duration: var(--transition-slow);
+	overflow-x: hidden;
+	@media screen and (max-width: 1024px) {
+		padding: var(--space-large);
+	}
+	@media screen and (max-width: 768px) {
 		margin-top: var(--header-height);
+		padding: var(--space-large) var(--space-mid);
 	}
 }
 // section 스타일링

@@ -2,24 +2,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // store
 import { useLoadingStore } from '@/stores/loading';
-// utils
-import { getCookie } from '@/utils/function/cookie';
+import { useTokenStore } from '@/stores/token';
 // component
-import Home from '@/pages/Home/Home.vue';
+import Dashboard from '@/pages/Home/Dashboard.vue';
 
 // 로그인 상태 체크
 const checkLogin = async (_: any, from: any, next: any) => {
-	// if (!getCookie('webid')) {
-	// 	alert('로그인이 필요한 서비스입니다.');
-	// 	next('/');
-	// } else {
-	// 	next();
-	// }
-	next();
+	const tokenStore = useTokenStore();
+	if (!tokenStore.accessToken) {
+		console.log('로그인 안되어있음', from);
+		next('/Auth/Login');
+	} else {
+		next();
+	}
 };
 // 로그아웃 상태 체크
 const checkLogout = async (_: any, from: any, next: any) => {
-	if (getCookie('webid')) {
+	const tokenStore = useTokenStore();
+	if (tokenStore.accessToken) {
+		console.log('이미 로그인 되어있음', from);
 		next(from);
 	} else {
 		next();
@@ -28,17 +29,33 @@ const checkLogout = async (_: any, from: any, next: any) => {
 
 const routes = [
 	{
-		// 홈 (로그아웃 상태일때 홈)
+		// 대시보드(홈)
 		path: '/',
-		name: 'Home',
-		component: Home,
+		name: 'Dashboard',
+		component: Dashboard,
+		beforeEnter: [checkLogin],
+	},
+	{
+		// 입출고내역
+		path: '/InventoryHistory',
+		name: 'InventoryHistory',
+		component: () => import('@/pages/InventoryHistory/InventoryHistory.vue'),
+		beforeEnter: [checkLogin],
+	},
+	{
+		// 재고이동
+		path: '/InventoryMove',
+		name: 'InventoryMove',
+		component: () => import('@/pages/InventoryMove/InventoryMove.vue'),
+		beforeEnter: [checkLogin],
 	},
 
 	{
-		// TODO: 짭 로그인 페이지 (나중에 삭제)
+		// 로그인 페이지
 		path: '/Auth/Login',
 		name: 'Login',
 		component: () => import('@/pages/Auth/Login.vue'),
+		beforeEnter: [checkLogout],
 	},
 
 	{

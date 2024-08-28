@@ -61,7 +61,7 @@ export class Product {
   @Prop()
   image: string;
 
-  @Prop()
+  @Prop({ required: true })
   code: string;
 
   @Prop({ type: Map, of: Number })
@@ -109,6 +109,9 @@ export class Deposit {
 
   @Prop({ type: Map, of: Number })
   items: Record<string, number>;
+
+  @Prop({ type: Date, default: Date.now })
+  timestamp: Date;
 }
 
 export const DepositSchema = SchemaFactory.createForClass(Deposit);

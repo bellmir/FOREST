@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #333;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #6b58cb;
+      }
+    </style>
+  </defs>
+  <g id="_레이어_1" data-name=" 레이어 1">
+    <g>
+      <path class="cls-1" d="M18.7,20H1.3V0h17.4s0,20,0,20ZM3.1,18.2h13.8V1.8H3.1v16.4Z"/>
+      <g>
+        <rect class="cls-2" x="5.6" y="5.2" width="8.8" height="1.8"/>
+        <rect class="cls-2" x="5.6" y="9.1" width="8.8" height="1.8"/>
+        <rect class="cls-2" x="5.6" y="12.9" width="4.4" height="1.8"/>
+      </g>
+    </g>
+  </g>
+</svg>

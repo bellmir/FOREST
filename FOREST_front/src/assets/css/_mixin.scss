@@ -1,0 +1,335 @@
+// ------------------------------ layout START ------------------------------
+// mainContainer 스타일링
+@mixin mixin_mainContainer($isFull: false, $background: var(--color-base-brand)) {
+	background-color: $background;
+	// * isFull이 true일 경우 화면 꽉채움, false일 경우 header 높이만큼 띄움
+	@if ($isFull) {
+		min-height: min(100rem, 100svh);
+	} @else {
+		min-height: min(100rem, calc(100svh - var(--header-height)));
+		margin-top: var(--header-height);
+	}
+}
+// section 스타일링
+@mixin mixin_section {
+	position: relative;
+	overflow: hidden;
+	padding: var(--space-7x-large) 0;
+}
+// inner 스타일링
+@mixin mixin_inner {
+	width: 100%;
+	max-width: var(--inner-width);
+	margin: 0 auto;
+	padding: 0 2rem;
+}
+// ------------------------------ layout END ------------------------------
+
+// ------------------------------ text START ------------------------------
+// 기본 텍스트 스타일
+@mixin mixin_defaultText {
+	font-family: 'Pretendard Variable', 'Pretendard';
+	font-size: var(--font-s-small);
+	font-weight: var(--font-w-regular);
+	line-height: 1.6;
+	letter-spacing: -0.03em;
+	color: var(--color-font-dark);
+}
+@mixin mixin_titleText {
+	line-height: 1.4;
+	word-break: keep-all;
+	text-wrap: pretty;
+}
+@mixin mixin_headline {
+	@include mixin_titleText; // titleText 적용
+	font-size: 3rem;
+	font-weight: var(--font-w-semi);
+	@media screen and (max-width: 768px) {
+		font-size: var(--font-s-large);
+	}
+}
+@mixin mixin_contentsTitle {
+	@include mixin_titleText; // titleText 적용
+	font-size: var(--font-s-3x-large);
+	font-weight: var(--font-w-thin);
+}
+@mixin mixin_subTitle {
+	@include mixin_titleText; // titleText 적용
+	font-size: var(--font-s-small);
+	font-weight: var(--font-w-semi);
+}
+@mixin mixin_ellipsis($line: 1) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	@if ($line == 1) {
+		white-space: nowrap;
+	} @else {
+		display: -webkit-box;
+		-webkit-line-clamp: $line; // 원하는 라인수
+		-webkit-box-orient: vertical;
+	}
+}
+// ------------------------------ text END ------------------------------
+
+// ------------------------------ button START ------------------------------
+// button 스타일링
+@mixin mixin_button(
+	$theme: '' /* '', 'primary', 'secondary', 'point' or color(ex: '#000') */,
+	$style: 'outline' /* 'outline' or 'fill' */,
+	$size: '' /* '', 'auto', 'small', 'mid', 'large', 'full' */,
+	$radius: '' /* '', 'small', 'mid', 'large', 'full' */,
+	$hover: true /* hover 효과 사용 여부 */
+) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+	outline: none;
+	border: 1px solid currentColor;
+	line-height: 1;
+	white-space: nowrap;
+	background-color: transparent;
+	transition-property: background-color, opacity, color;
+	transition-duration: var(--transition-fast);
+	cursor: pointer;
+
+	// theme
+	@if ($theme == 'primary') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-primary);
+			color: var(--color-primary);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-primary);
+			background-color: var(--color-primary);
+			color: #fff;
+		}
+	} @else if($theme == 'secondary') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-secondary);
+			color: var(--color-secondary);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-secondary);
+			background-color: var(--color-secondary);
+			color: #fff;
+		}
+	} @else if($theme == 'point') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-point);
+			color: var(--color-point);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-point);
+			background-color: var(--color-point);
+			color: var(--color-point-contrast);
+		}
+	} @else if($theme == 'point-light') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-point-light);
+			color: var(--color-point-light);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-point-light);
+			background-color: var(--color-point-light);
+			color: var(--color-point-contrast);
+		}
+	} @else if($theme == 'light') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-border-light);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-base-mid);
+			background-color: var(--color-base-mid);
+			color: var(--color-font-dark);
+		}
+	} @else if($theme == 'dark') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-base-dark);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-base-dark);
+			background-color: var(--color-base-dark);
+			color: var(--color-font-white);
+		}
+	} @else if($theme == 'white') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-font-white);
+			color: var(--color-font-white);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-font-white);
+			background-color: var(--color-font-white);
+			color: var(--color-font-dark);
+		}
+	} @else if($theme == 'danger') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-danger);
+			color: var(--color-danger);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-danger);
+			background-color: var(--color-danger);
+			color: #fff;
+		}
+	} @else if($theme == 'warning') {
+		@if ($style == 'outline') {
+			border: 1px solid var(--color-warning);
+			color: var(--color-warning);
+		} @else if($style == 'fill') {
+			border: 1px solid var(--color-warning);
+			background-color: var(--color-warning);
+			color: #fff;
+		}
+	} @else if($theme != '') {
+		@if ($style == 'outline') {
+			border: 1px solid $theme;
+			color: $theme;
+		} @else if($style == 'fill') {
+			border: 1px solid $theme;
+			background-color: $theme;
+			color: #fff;
+		}
+	}
+
+	// size
+	@if ($size == 'auto') {
+		padding: 0.4em 1em;
+	} @else if($size == 'small') {
+		height: 3rem;
+		min-width: 8rem;
+		font-size: var(--font-s-x-small);
+	} @else if($size == 'mid') {
+		height: var(--common-height);
+		min-width: 16rem;
+		font-size: var(--font-s-small);
+	} @else if($size == 'large') {
+		height: var(--common-height);
+		min-width: 24rem;
+		font-size: var(--font-s-mid);
+	} @else if($size == 'full') {
+		height: var(--common-height);
+		width: 100%;
+	}
+
+	// radius
+	@if ($radius == 'small') {
+		border-radius: var(--border-radius-small);
+	} @else if($radius == 'mid') {
+		border-radius: var(--border-radius-mid);
+	} @else if($radius == 'large') {
+		border-radius: var(--border-radius-large);
+	} @else if($radius == 'full') {
+		border-radius: var(--border-radius-full);
+	}
+
+	// hover
+	@if ($hover) {
+		&:hover:not(:disabled) {
+			opacity: 0.85;
+		}
+	}
+
+	&:disabled {
+		background-color: var(--color-base-disabled) !important;
+		color: var(--color-disabled) !important;
+		border: 1px solid var(--color-base-disabled) !important;
+	}
+}
+// ------------------------------ button END ------------------------------
+
+// ------------------------------ 기타 START ------------------------------
+// mypage 스타일링 START
+@mixin mixin_mypageInner {
+	width: 100%;
+	max-width: var(--inner-width);
+	margin: 0 auto;
+	padding: var(--space-5x-large) 2rem;
+}
+@mixin mixin_mypageSectionLayout {
+	display: grid;
+	gap: var(--space-x-large);
+	min-width: 0; // 빼면 자손 swiper에서 오류 발생할 수 있음
+	min-height: 0; // 빼면 자손 swiper에서 오류 발생할 수 있음
+	@media screen and (max-width: 768px) {
+		gap: var(--space-x-small);
+	}
+}
+@mixin mixin_mypageBox($mobileFull: true) {
+	background-color: #fff;
+	padding: var(--space-2x-large);
+	border-radius: var(--border-radius-large);
+	@media screen and (max-width: 1024px) {
+		padding: var(--space-2x-large) var(--space-large);
+	}
+	@if ($mobileFull) {
+		@media screen and (max-width: 768px) {
+			border-radius: 0;
+			width: calc(100% + 4rem);
+			margin-right: -2rem;
+			margin-left: -2rem;
+		}
+	}
+}
+// mypage 스타일링 END
+// customerCenter 스타일링 START
+@mixin mixin_customerCenterInner {
+	width: 100%;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: var(--space-5x-large) 2rem;
+	@media screen and (max-width: 768px) {
+		padding: var(--space-3x-large) 2rem;
+	}
+}
+// customerCenter 스타일링 END
+// ------------------------------ 기타 END ------------------------------
+
+// ------------------------------ util성 START ------------------------------
+// scrollbar 스타일링
+@mixin mixin_scrollbar($size: 5px, $track-background: transparent, $thumb-background: var(--color-secondary)) {
+	&::-webkit-scrollbar {
+		width: $size;
+		height: $size;
+		background: $track-background;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 1000px;
+		background: $thumb-background;
+	}
+}
+// flex center 스타일링
+@mixin mixin_flexCenter($direction: row) {
+	display: flex;
+	flex-direction: $direction;
+	align-items: center;
+	justify-content: center;
+	min-width: 0;
+}
+@mixin mixin_flexSpaceBetween($direction: row) {
+	display: flex;
+	flex-direction: $direction;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 0;
+}
+@mixin mixin_fullAbsolute {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+@mixin mixin_fullImg {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+// dimmed 스타일링 (팝업 등의 배경 가릴 때 사용)
+@mixin mixin_dimmed($z-index: 0, $mode: 'dark', $position: fixed) {
+	z-index: $z-index;
+	position: $position;
+	top: 0;
+	left: 0;
+	height: 100vh; // 100%는 모바일 스크롤시 하단 짤림
+	width: 100%;
+	@if ($mode == 'dark') {
+		background-color: rgba(0, 0, 0, 0.5);
+	} @else if($mode == 'light') {
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+}
+// ------------------------------ util성 END ------------------------------

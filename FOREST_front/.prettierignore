@@ -1,0 +1,8 @@
+build
+
+reset.css
+
+**/node_modules
+**/*.json
+**/*.config.js
+**/*.md

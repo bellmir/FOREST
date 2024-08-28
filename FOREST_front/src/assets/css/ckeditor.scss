@@ -1,0 +1,59 @@
+// ck editor로 작성된 콘텐츠에 적용할 스타일 정의
+
+.ck-content {
+	line-height: 1.6;
+	a {
+		color: var(--color-primary);
+		text-decoration: underline;
+	}
+	.text-tiny {
+		font-size: 0.7em;
+	}
+	.text-small {
+		font-size: 0.85em;
+	}
+	.text-big {
+		font-size: 1.4em;
+	}
+	.text-huge {
+		font-size: 1.8em;
+	}
+	.image {
+		margin: 0.9em auto;
+		min-width: 50px;
+		&.image-style-block-align-left {
+			margin-left: 0;
+			margin-right: auto;
+		}
+		&.image-style-block-align-right {
+			margin-left: auto;
+			margin-right: 0;
+		}
+		img {
+			display: block;
+			max-width: 100%;
+		}
+	}
+
+	.table {
+		width: auto;
+		display: table;
+		margin: 0.9em auto;
+		& table {
+			width: 100%;
+			height: 100%;
+			border: solid #000 1px;
+			& td,
+			& th {
+				min-width: 2em;
+				padding: 0.4em;
+				border: solid #000 1px;
+				vertical-align: middle;
+			}
+			& th {
+				font-weight: bold;
+				background: hsla(0, 0%, 0%, 5%);
+			}
+		}
+	}
+}

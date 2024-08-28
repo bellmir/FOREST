@@ -18,6 +18,15 @@ export class AuthController {
   @ApiOperation({ summary: 'User login' })
   @ApiResponse({ status: 200, description: 'User successfully logged in.' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'test1@test.com' },
+        password: { type: 'string', example: 'test1' },
+      },
+    },
+  })
   async login(@Request() req) {
     return this.authService.login(req.user);
   }

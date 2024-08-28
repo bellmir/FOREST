@@ -13,6 +13,7 @@
 		"@primevue/themes": "^4.0.3",
 		"@tanstack/vue-query": "^5.51.3",
 		"axios": "^1.7.2",
+		"chart.js": "^4.4.4",
 		"dayjs": "^1.11.11",
 		"lodash-es": "^4.17.21",
 		"mem": "^10.0.0",

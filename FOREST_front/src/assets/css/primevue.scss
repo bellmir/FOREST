@@ -75,6 +75,7 @@ textarea.p-textarea {
 	--p-select-hover-border-color: var(--color-border-mid);
 	--p-select-color: currentColor;
 	--p-select-background: transparent;
+	--p-select-disabled-background: var(--color-base-disabled);
 	--p-select-border-color: var(--color-border-mid);
 	height: var(--common-height);
 	.p-select-label {
@@ -253,3 +254,12 @@ textarea.p-textarea {
 	--p-toast-detail-font-size: var(--font-s-2x-small);
 }
 // toast END
+
+// splitter START
+.p-splitter {
+	--p-splitter-border-color: var(--color-border-mid);
+	--p-splitter-background: transparent;
+	--p-splitter-color: currentColor;
+	--p-splitter-gutter-background: var(--color-base-mid);
+}
+// splitter EMD

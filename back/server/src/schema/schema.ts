@@ -106,6 +106,12 @@ export class Location {
 
   @Prop()
   y_cor: string;
+
+  @Prop({ type: Map, of: Number })
+  item_list: Record<string, number>;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  charged_users: MongooseSchema.Types.ObjectId;
 }
 
 export const LocationSchema = SchemaFactory.createForClass(Location);
@@ -132,6 +138,10 @@ export class Deposit {
 
   @Prop({ type: Date, default: Date.now })
   timestamp: Date;
+
+  // 이런 건 원칙적으로는 enum을 적용하는 편이 좋음.
+  @Prop()
+  status: string;
 }
 
 export const DepositSchema = SchemaFactory.createForClass(Deposit);

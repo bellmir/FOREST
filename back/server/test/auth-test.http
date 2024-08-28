@@ -1,0 +1,33 @@
+### 로그인 테스트
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "changeme"
+}
+
+### 잘못된 비밀번호로 로그인 시도
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "wrongpassword"
+}
+
+### 존재하지 않는 사용자로 로그인 시도
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "nonexistent",
+  "password": "somepassword"
+}
+
+
+### JWT 토큰을 사용하여 보호된 라우트에 접근
+GET http://localhost:3000/test/hello
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTcyNDgxOTUwMSwiZXhwIjoxNzI0ODE5NTYxfQ.hj8v3eFU9vD61vgebr-mPkH3eX3J2X7wUD9CGmkWavQ
+
+###

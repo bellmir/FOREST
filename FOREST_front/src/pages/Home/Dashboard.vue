@@ -8,7 +8,7 @@
 					<img src="@/assets/image/sample/company_sample_nike.svg" alt="" />
 				</div>
 				<div class="goalDetail">
-					<table class="goalTable">
+					<table class="g_table goalTable">
 						<tr>
 							<th></th>
 							<th>목표 배출량</th>
@@ -48,7 +48,16 @@
 					<h2>입고</h2>
 				</div>
 				<div class="box_content">
-					<p>233</p>
+					<table class="g_table">
+						<tr>
+							<th>당월</th>
+							<th>오늘</th>
+						</tr>
+						<tr>
+							<td>347</td>
+							<td>23</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<div class="inventoryBrief_box">
@@ -57,7 +66,16 @@
 					<h2>출고</h2>
 				</div>
 				<div class="box_content">
-					<p>233</p>
+					<table class="g_table">
+						<tr>
+							<th>당월</th>
+							<th>오늘</th>
+						</tr>
+						<tr>
+							<td>347</td>
+							<td>23</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</section>
@@ -174,19 +192,6 @@ const monthlyChartOption = {
 			.goalDetail {
 				flex-grow: 1;
 				.goalTable {
-					border: 1px solid var(--color-base-mid);
-					width: 100%;
-					th,
-					td {
-						padding: var(--space-x-small) var(--space-x-small);
-						border: 1px solid var(--color-base-mid);
-						text-align: center;
-					}
-					th {
-						font-weight: var(--font-w-semi);
-						font-size: var(--font-s-mid);
-						background-color: var(--color-base-brand);
-					}
 					td {
 						&.success {
 							color: var(--color-success);
@@ -252,8 +257,8 @@ const monthlyChartOption = {
 				}
 			}
 			.box_content {
-				font-size: var(--font-s-x-large);
-				font-weight: var(--font-w-mid);
+				.inventoryBrief_table {
+				}
 			}
 		}
 	}

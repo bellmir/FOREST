@@ -78,7 +78,7 @@ const route = useRoute();
 const router = useRouter();
 const tokenStore = useTokenStore();
 
-const isOpened = ref(window.innerWidth > 768); // 768px 이상일 때 초기값은 열림
+const isOpened = ref(window.innerWidth > 1024); // 1024px 이상일 때 초기값은 열림
 const selectedMenu = ref('Dashboard');
 const selectedSubMenu = ref('');
 const activeSubmenu = ref('');
@@ -87,8 +87,8 @@ const activeSubmenu = ref('');
 const onSelectMenu = (menu: string, subMenu?: boolean) => {
 	const leftMenuBar = document.querySelector('.leftMenuBar');
 
-	// 만약 화면 너비가 768이상이고, 메뉴바가 닫혀있는 상태에서 이동하면 메뉴바 열리도록
-	if (window.innerWidth > 768 && !leftMenuBar?.classList.contains('opened')) {
+	// 만약 화면 너비가 1024이상이고, 메뉴바가 닫혀있는 상태에서 이동하면 메뉴바 열리도록
+	if (window.innerWidth > 1024 && !leftMenuBar?.classList.contains('opened')) {
 		isOpened.value = true;
 	}
 	//서브 메뉴 컨트롤
@@ -127,7 +127,7 @@ const updateMenu = () => {
 
 onMounted(() => {
 	addEventListener('resize', () => {
-		if (Number(window.innerWidth) <= 768) {
+		if (Number(window.innerWidth) <= 1024) {
 			isOpened.value = false;
 		}
 	});
@@ -138,7 +138,7 @@ watch(
 	() => route.path,
 	() => {
 		updateMenu();
-		if (window.innerWidth <= 768) {
+		if (window.innerWidth <= 1024) {
 			isOpened.value = false; // 모바일에서는 라우트 이동시 메뉴바 닫힘
 		}
 		// checkMenuBarState();
@@ -165,7 +165,7 @@ watch(
 .leftMenuBar.opened {
 	width: calc(4.8rem + var(--space-small) * 2 + 16rem);
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
 	.leftMenuBar {
 		position: fixed;
 		width: 100%;
@@ -235,7 +235,7 @@ watch(
 	max-width: 13rem;
 	transition-duration: 0.3s;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
 	.leftMenuBar .topLogo {
 		height: var(--header-height);
 	}
@@ -382,7 +382,7 @@ watch(
 .leftMenuBar.opened .mainMenu .submenu li.submenuOn::before {
 	background-color: var(--color-primary);
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
 	.leftMenuBar.opened .mainMenu > li.on {
 		left: 0rem;
 		color: var(--color-primary);

@@ -1,24 +1,18 @@
 import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from '../schema/schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme', // 평문 비밀번호
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess', // 평문 비밀번호
-    },
-  ];
-  // DB 전 임의로 사용.
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+    return this.userModel.findOne({ username }).exec();
+  }
+
+  async create(username: string, password: string): Promise<User> {
+    const newUser = new this.userModel({ username, password });
+    return newUser.save();
   }
 }

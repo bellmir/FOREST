@@ -6,14 +6,14 @@
 	width: 100%;
 	flex-grow: 1;
 	padding: var(--space-x-large);
-	background-color: var(--color-base-light);
+	background-color: var(--color-base-brand);
 	transition-duration: var(--transition-slow);
 	overflow-x: hidden;
 	@media screen and (max-width: 1024px) {
+		margin-top: var(--header-height);
 		padding: var(--space-large);
 	}
 	@media screen and (max-width: 768px) {
-		margin-top: var(--header-height);
 		padding: var(--space-large) var(--space-mid);
 	}
 }
@@ -29,6 +29,18 @@
 	max-width: var(--inner-width);
 	margin: 0 auto;
 	padding: 0 2rem;
+}
+@mixin mixin_box($gap: false) {
+	background-color: #fff;
+	padding: var(--space-2x-large);
+	border-radius: var(--border-radius-large);
+	box-shadow: var(--box-shadow);
+	@if ($gap) {
+		margin-top: var(--space-2x-large);
+	}
+	@media screen and (max-width: 1024px) {
+		padding: var(--space-2x-large) var(--space-large);
+	}
 }
 // ------------------------------ layout END ------------------------------
 
@@ -238,50 +250,6 @@
 // ------------------------------ button END ------------------------------
 
 // ------------------------------ 기타 START ------------------------------
-// mypage 스타일링 START
-@mixin mixin_mypageInner {
-	width: 100%;
-	max-width: var(--inner-width);
-	margin: 0 auto;
-	padding: var(--space-5x-large) 2rem;
-}
-@mixin mixin_mypageSectionLayout {
-	display: grid;
-	gap: var(--space-x-large);
-	min-width: 0; // 빼면 자손 swiper에서 오류 발생할 수 있음
-	min-height: 0; // 빼면 자손 swiper에서 오류 발생할 수 있음
-	@media screen and (max-width: 768px) {
-		gap: var(--space-x-small);
-	}
-}
-@mixin mixin_mypageBox($mobileFull: true) {
-	background-color: #fff;
-	padding: var(--space-2x-large);
-	border-radius: var(--border-radius-large);
-	@media screen and (max-width: 1024px) {
-		padding: var(--space-2x-large) var(--space-large);
-	}
-	@if ($mobileFull) {
-		@media screen and (max-width: 768px) {
-			border-radius: 0;
-			width: calc(100% + 4rem);
-			margin-right: -2rem;
-			margin-left: -2rem;
-		}
-	}
-}
-// mypage 스타일링 END
-// customerCenter 스타일링 START
-@mixin mixin_customerCenterInner {
-	width: 100%;
-	max-width: 1100px;
-	margin: 0 auto;
-	padding: var(--space-5x-large) 2rem;
-	@media screen and (max-width: 768px) {
-		padding: var(--space-3x-large) 2rem;
-	}
-}
-// customerCenter 스타일링 END
 // ------------------------------ 기타 END ------------------------------
 
 // ------------------------------ util성 START ------------------------------
@@ -319,10 +287,10 @@
 	width: 100%;
 	height: 100%;
 }
-@mixin mixin_fullImg {
+@mixin mixin_fullImg($object-fit: cover) {
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	object-fit: $object-fit;
 	object-position: center;
 }
 // dimmed 스타일링 (팝업 등의 배경 가릴 때 사용)

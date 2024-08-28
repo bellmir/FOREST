@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 // User Document
@@ -6,21 +7,40 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
+  @ApiProperty({
+    example: 'test1@test.com',
+    description: 'The email address of the user',
+  })
   @Prop({ required: true })
   email: string;
 
+  @ApiProperty({ example: 'password123', description: 'The user password' })
   @Prop({ required: true })
   password: string;
 
+  @ApiProperty({ example: 'John Doe', description: 'The name of the user' })
   @Prop()
   name: string;
 
+  @ApiProperty({
+    example: 'Brand X',
+    description: 'The brand associated with the user',
+  })
   @Prop()
   brand: string;
 
+  @ApiProperty({
+    example: '0x1234567890',
+    description: 'The account address of the user',
+  })
   @Prop()
   address: string;
 
+  @ApiProperty({
+    type: [String],
+    example: ['location1', 'location2'],
+    description: 'Array of location IDs that the user is charged with',
+  })
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'Location' })
   charged_locations: MongooseSchema.Types.ObjectId[];
 }

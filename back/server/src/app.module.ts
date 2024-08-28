@@ -6,6 +6,7 @@ import { TestModule } from './test/test.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Web3Service } from './web3/web3.service';
 import { ConfigModule } from '@nestjs/config';
+import { Web3Module } from './web3/web3.module';
 
 @Module({
   imports: [
@@ -18,9 +19,10 @@ import { ConfigModule } from '@nestjs/config';
       retryDelay: 1000,
     }),
     AuthModule,
+    Web3Module,
     TestModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Web3Service],
+  providers: [AppService],
 })
 export class AppModule {}

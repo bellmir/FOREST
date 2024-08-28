@@ -17,7 +17,7 @@
 		padding: var(--space-x-large) var(--space-large);
 	}
 	@media screen and (max-width: 768px) {
-		padding: var(--space-large) var(--space-mid);
+		padding: var(--space-x-large) var(--space-mid);
 	}
 }
 // section 스타일링
@@ -40,6 +40,9 @@
 	box-shadow: var(--box-shadow);
 	@media screen and (max-width: 1024px) {
 		padding: var(--space-2x-large) var(--space-large);
+		border-radius: 0;
+		width: calc(100% + 4rem);
+		margin: 0 -2rem;
 	}
 }
 // ------------------------------ layout END ------------------------------

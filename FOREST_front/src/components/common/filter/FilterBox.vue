@@ -52,13 +52,6 @@ const isOpen = ref(window.innerWidth > 768);
 .FilterBox {
 	@include mixin_box;
 
-	@media screen and (max-width: 768px) {
-		// padding: 0;
-		// background-color: transparent;
-		border-radius: 0;
-		width: calc(100% + 4rem);
-		margin: 0 -2rem;
-	}
 	.filter_title {
 		@include mixin_flexSpaceBetween;
 		gap: var(--sapce-small) var(--sapce-mid);

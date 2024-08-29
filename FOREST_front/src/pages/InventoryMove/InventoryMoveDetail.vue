@@ -35,7 +35,7 @@
 				</ul>
 			</div>
 		</div>
-		<div v-if="movePk < 5" class="detailAction">
+		<div v-if="Number(movePk) < 5" class="detailAction">
 			<button class="btn_confirm">승인</button>
 			<button class="btn_cancel">거절</button>
 		</div>

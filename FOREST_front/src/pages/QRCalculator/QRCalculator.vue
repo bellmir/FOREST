@@ -10,55 +10,165 @@
 				<qrcode-stream
 					:constraints="{ facingMode: 'environment' }"
 					:formats="['qr_code']"
+					:track="paintOutline"
 					@error="onError"
 					@detect="onDetect"
-					@camera-on="onCameraReady"
 				/>
 			</div>
 
 			<div v-if="error" class="error">{{ error }}</div>
+
+			<div class="addedProduct">
+				<h2 class="totalCarbon">
+					총 탄소배출량: <span class="totalCarbon_amount">{{ totalCarbon }}kg</span>
+				</h2>
+				<ul class="addedList">
+					<li v-for="item in addedProductList" class="list_item">
+						<details>
+							<summary>
+								<div class="list_summary">
+									<div class="product_name">
+										{{ item.name }}
+									</div>
+									<div class="emission">
+										<span class="emission_title">탄소배출량</span
+										><span class="emission_content">{{ item.emission }}</span>
+									</div>
+								</div>
+							</summary>
+							<div class="list_detail">
+								<div class="material">
+									<h3>소재</h3>
+									<p>{{ item.material }}</p>
+								</div>
+								<div class="moveHistory">
+									<h3>이동 경로</h3>
+									<ul>
+										<li v-for="history in item.moveHistory">{{ history.location }}</li>
+									</ul>
+								</div>
+							</div>
+						</details>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</main>
 </template>
 
 <script setup lang="ts">
 // core
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 // qrcode
 import { QrcodeStream } from 'vue-qrcode-reader';
 
 const error = ref();
 const qrCodeData = ref();
+const addedProductList = ref<
+	{
+		id: number;
+		name: string;
+		material: string;
+		emission: string;
+		moveHistory: { location: string }[];
+	}[]
+>([]);
+const totalCarbon = computed(() => {
+	return addedProductList.value
+		.reduce((acc, cur) => {
+			return acc + parseFloat(cur.emission);
+		}, 0)
+		.toFixed(2);
+});
 
-const onDecode = (decoded: string) => {
-	qrCodeData.value = decoded;
+const mockProductData = [
+	{
+		id: 123,
+		name: '레이버 쿨링 카고 팬츠',
+		material: '폴리 83%  + 레이온 13% + 스판 4%',
+		emission: '121.07kg',
+		moveHistory: [
+			{
+				location: '부산광역시 부산진구 동천로108번길 36',
+			},
+			{
+				location: '서울특별시 서초구 양재동 225-5',
+			},
+			{
+				location: '서울 서초구 바우뫼로12길 70 더케이호텔서울',
+			},
+		],
+	},
+	{
+		id: 456,
+		name: '뱅크 옆밴드 링클프리 슬랙스',
+		material: '폴리 83%  + 레이온 13% + 스판 4%',
+		emission: '103.20kg',
+		moveHistory: [
+			{
+				location: '부산광역시 부산진구 동천로108번길 36',
+			},
+			{
+				location: '서울특별시 서초구 양재동 225-5',
+			},
+			{
+				location: '경기도 의정부시 체육로 123 (녹양동 285-3)',
+			},
+			{
+				location: '서울 서초구 바우뫼로12길 70 더케이호텔서울',
+			},
+		],
+	},
+	{
+		id: 789,
+		name: '[6COLOR] 플레인 스냅 후드',
+		material: '면 80% + 폴리에스터 20%',
+		emission: '58.17kg',
+		moveHistory: [
+			{
+				location: '서울 성동구 성수이로 66 서울숲 드림타워 105호 (성수동2가)',
+			},
+			{
+				location: '서울특별시 서초구 양재동 225-5',
+			},
+			{
+				location: '경기도 의정부시 체육로 123 (녹양동 285-3)',
+			},
+			{
+				location: '서울 서초구 바우뫼로12길 70 더케이호텔서울',
+			},
+		],
+	},
+];
+
+const onDetect = (decoded: any[]) => {
+	const productIds = decoded.map((el) => JSON.parse(el.rawValue)?.id);
+	productIds.forEach((productId) => {
+		if (addedProductList.value.find((item) => item.id == productId)) {
+			return;
+		}
+		const foundItem = mockProductData.find((item) => item.id == productId);
+		if (foundItem) {
+			addedProductList.value.push(foundItem);
+		}
+	});
 };
-const onDetect = (decoded: string) => {
-	qrCodeData.value = decoded;
-};
 
-// onMounted(() => {
-// 	window.navigator.mediaDevices
-// 		.getUserMedia({ video: true, audio: false })
-// 		// .then((stream) => {
-// 		//   // 스트림을 사용하여 비디오를 재생하거나 녹화할 수 있습니다.
-// 		//   const videoElement = document.querySelector('video');
-// 		//   videoElement.srcObject = stream;
-// 		// })
-// 		.catch((error) => {
-// 			console.error('카메라 권한이 거부되었거나 문제가 발생했습니다.', error);
-// 		});
-// });
+function paintOutline(detectedCodes: any, ctx: any) {
+	for (const detectedCode of detectedCodes) {
+		const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
 
-async function onCameraReady() {
-	// NOTE: on iOS we can't invoke `enumerateDevices` before the user has given
-	// camera access permission. `QrcodeStream` internally takes care of
-	// requesting the permissions. The `camera-on` event should guarantee that this
-	// has happened.
-	const devices = await navigator.mediaDevices.enumerateDevices();
-	const videoDevices = devices.filter(({ kind }) => kind === 'videoinput');
+		ctx.strokeStyle = 'red';
 
-	error.value = '';
+		ctx.beginPath();
+		ctx.moveTo(firstPoint.x, firstPoint.y);
+		for (const { x, y } of otherPoints) {
+			ctx.lineTo(x, y);
+		}
+		ctx.lineTo(firstPoint.x, firstPoint.y);
+		ctx.closePath();
+		ctx.stroke();
+	}
 }
 
 function onError(err: any) {
@@ -89,6 +199,7 @@ function onError(err: any) {
 	@include mixin_mainContainer;
 	margin-top: 0 !important;
 	height: 100vh;
+	background-color: #fff;
 	.QRCalculator_content {
 		@include mixin_inner;
 		.logo {
@@ -115,6 +226,54 @@ function onError(err: any) {
 			margin-top: var(--space-large);
 			text-align: center;
 			color: var(--color-danger);
+		}
+		.addedProduct {
+			.totalCarbon {
+				padding: var(--space-x-small);
+				margin-bottom: var(--space-mid);
+				background-color: var(--color-base-mid);
+				border-radius: var(--border-radius-mid);
+				text-align: center;
+				font-size: var(--font-s-large);
+				font-weight: var(--font-w-semi);
+				.totalCarbon_amount {
+					color: var(--color-primary);
+				}
+			}
+			.addedList {
+				display: flex;
+				flex-direction: column;
+				gap: var(--space-small);
+				.list_item {
+					.list_summary {
+						.product_name {
+							font-weight: var(--font-w-semi);
+						}
+						.emission {
+							.emission_title {
+								margin-right: var(--space-small);
+							}
+							.emission_content {
+								color: var(--color-primary);
+							}
+						}
+					}
+					.list_detail {
+						font-size: var(--font-s-x-small);
+						h3 {
+							font-weight: var(--font-w-semi);
+						}
+						.material {
+							margin-bottom: var(--space-x-small);
+						}
+						.moveHistory {
+							ul {
+								color: var(--color-font-light);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -2,16 +2,24 @@ import { faker } from '@faker-js/faker';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from 'src/schema/schema';
+import {
+  Location,
+  LocationDocument,
+  Product,
+  ProductDocument,
+} from 'src/schema/schema';
 
 @Injectable()
 export class ProductService implements OnModuleInit {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    @InjectModel(Location.name) private locationModel: Model<LocationDocument>,
   ) {}
 
   async onModuleInit() {
     await this.mockingProducts();
+    // 1번만 실행하자.
+    await this.mockingPutProductsToLocations();
   }
 
   async mockingProducts() {
@@ -86,6 +94,42 @@ export class ProductService implements OnModuleInit {
 
     console.log('20개의 제품 데이터가 생성되었습니다.');
     return products;
+  }
+
+  async mockingPutProductsToLocations() {
+    // Fetch all existing locations
+    const locations = await this.locationModel.find().exec();
+    // Fetch all existing products
+    const products = await this.productModel.find().exec();
+
+    if (products.length === 0) {
+      console.error('No products found in the database.');
+      return;
+    }
+
+    for (const location of locations) {
+      // Randomly select up to 10 products
+      const selectedProducts = faker.helpers.arrayElements(products, 10);
+      const itemList: Record<string, number> = {};
+
+      selectedProducts.forEach((product) => {
+        // Assign a random quantity between 50 and 1000
+        const quantity = faker.number.int({ min: 50, max: 1000 });
+        itemList[product.name] = quantity;
+      });
+
+      // Update the location's item_list with the selected products
+      location.item_list = itemList;
+
+      try {
+        await location.save(); // Save the updated location
+        console.log(`Updated location ${location.name} with random products.`);
+      } catch (error) {
+        console.error(
+          `Error updating location ${location.name}: ${error.message}`,
+        );
+      }
+    }
   }
 
   private generateMaterialPercentages(count: number): number[] {

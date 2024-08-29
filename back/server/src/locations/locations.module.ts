@@ -11,8 +11,6 @@ import { LocationService } from './locations.service';
         name: Location.name,
         schema: LocationSchema,
       },
-    ]),
-    MongooseModule.forFeature([
       {
         name: User.name,
         schema: UserSchema,

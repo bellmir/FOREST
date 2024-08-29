@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { TestModule } from './test/test.module';
 import { DepositsModule } from './deposits/deposits.module';
 import { LocationModule } from './locations/locations.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LocationModule } from './locations/locations.module';
     }),
     UsersModule,
     LocationModule,
+    ProductModule,
     DepositsModule,
     AuthModule,
     Web3Module,

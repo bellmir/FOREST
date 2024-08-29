@@ -2,6 +2,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
     "hardhat": "^2.22.9",
+    "hardhat-deploy": "^0.12.4",
     "viem": "^2.20.1"
   },
   "dependencies": {

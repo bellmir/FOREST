@@ -40,7 +40,6 @@ export class Web3Service {
       chain: isLocal ? hardhatLocalhost : sepolia,
       transport: http(transportUrl),
     });
-
     const privateKey = this.configService.get<string>(
       'PRIVATE_KEY',
     ) as `0x${string}`;

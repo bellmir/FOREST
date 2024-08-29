@@ -1,8 +1,8 @@
 <template>
 	<main class="InventoryMove">
-		<h1 class="g_pageTitle">재고 이동 서비스</h1>
+		<h1 class="g_pageTitle">재고 이동 신청</h1>
 		<section class="changeArea">
-			<h2 class="g_boxTitle">재고 이동</h2>
+			<h2 class="g_boxTitle">품목 선택</h2>
 			<div class="changeArea_content">
 				<div class="storageInventory">
 					<div class="formBox">
@@ -18,7 +18,7 @@
 									disabled
 									:modelValue="{ product_name: item.product_name, product_code: item.product_code }"
 									:options="
-										fromStorageItemList.map((product) => ({
+										fromStorageItemList.map((product: any) => ({
 											product_name: product.product_name,
 											product_code: product.product_code,
 										}))
@@ -74,7 +74,7 @@
 									disabled
 									:modelValue="{ product_name: item.product_name, product_code: item.product_code }"
 									:options="
-										toStorageItemList.map((product) => ({
+										toStorageItemList.map((product: any) => ({
 											product_name: product.product_name,
 											product_code: product.product_code,
 										}))
@@ -88,6 +88,13 @@
 						</ul>
 					</div>
 				</div>
+			</div>
+
+			<div v-if="fromStorage && toStorage" class="change_carbon">
+				<ul>
+					<li><span class="carbon_title">운송 거리</span><span class="carbon_content distance">1,000 km</span></li>
+					<li><span class="carbon_title">탄소 소비량</span><span class="carbon_content amount">1,000 kg</span></li>
+				</ul>
 			</div>
 			<div class="change_action">
 				<button class="btn_move" @click="onMove" :disabled="moveList.length === 0 || !fromStorage || !toStorage">
@@ -201,15 +208,26 @@ const onMove = () => {
 	@include mixin_mainContainer; // mainContainer 적용\
 	.changeArea {
 		@include mixin_box;
+		.g_boxTitle {
+			margin-bottom: var(--space-mid);
+		}
 		.changeArea_content {
 			display: grid;
 			grid-template-columns: 1fr 1px 1fr;
-			gap: var(--space-x-large);
+			gap: var(--space-small) var(--space-x-large);
 			max-width: 120rem;
+			@media screen and (max-width: 768px) {
+				grid-template-columns: 1fr;
+			}
 			.line {
 				width: 1px;
 				height: 100%;
 				background-color: var(--color-border-mid);
+
+				@media screen and (max-width: 768px) {
+					width: 100%;
+					height: 1px;
+				}
 			}
 			.storageInventory {
 				display: flex;
@@ -232,6 +250,10 @@ const onMove = () => {
 							gap: var(--space-small);
 							.productSelect {
 								width: 15rem;
+								flex-shrink: 0;
+								@media screen and (max-width: 1024px) {
+									width: 12rem;
+								}
 							}
 							.productQuantity {
 								flex-grow: 1;
@@ -239,13 +261,40 @@ const onMove = () => {
 							.btn_delete {
 								@include mixin_button($theme: 'danger', $radius: 'mid');
 								height: var(--common-height);
-								padding: var(--space-small);
+								width: 6.4rem;
+								flex-shrink: 0;
 							}
 							.btn_add {
 								@include mixin_button($theme: 'primary', $radius: 'mid');
 								height: var(--common-height);
-								padding: var(--space-small);
+								width: 6.4rem;
+								flex-shrink: 0;
 							}
+						}
+					}
+				}
+			}
+		}
+		.change_carbon {
+			margin-top: var(--space-x-large);
+			ul {
+				padding: var(--space-large);
+				background-color: var(--color-base-light);
+				border-radius: var(--border-radius-large);
+				li {
+					display: flex;
+					span {
+						font-size: var(--font-s-mid);
+						&.carbon_title {
+							font-weight: var(--font-w-mid);
+							width: 10rem;
+						}
+						&.carbon_content {
+							flex-grow: 1;
+							color: var(--color-font-light);
+						}
+						&.amount {
+							color: var(--color-primary);
 						}
 					}
 				}

@@ -1,5 +1,5 @@
 <template>
-	<main class="ESGReport">
+	<main class="ESGReportDetail">
 		<h1 class="g_pageTitle">
 			{{ reportPk ? 'ESG 보고서 제목' : 'ESG 보고서 작성' }}
 		</h1>
@@ -178,7 +178,7 @@ const onToList = () => {
 </script>
 
 <style scoped lang="scss">
-.ESGReport {
+.ESGReportDetail {
 	@include mixin_mainContainer; // mainContainer 적용
 	.report {
 		@include mixin_box;

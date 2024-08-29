@@ -1,6 +1,6 @@
 <template>
 	<div class="content_layout">
-		<GlobalSidebar v-if="route.name !== 'Login'" />
+		<GlobalSidebar v-if="route.name !== 'Login' && route.name !== 'QRCalculator'" />
 		<RouterView />
 	</div>
 

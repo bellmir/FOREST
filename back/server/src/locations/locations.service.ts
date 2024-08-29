@@ -17,10 +17,15 @@ export class LocationService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    // await this.mockingLocations();
+    await this.mockingLocations();
   }
 
   async mockingLocations() {
+    const isExist = await this.locationModel.find().exec();
+    if (isExist.length) {
+      return;
+    }
+
     const locations = [];
     const users = await this.userModel.find().exec(); // Fetch all users from UserModel
     const userIds = users.map((user) => user._id.toString());

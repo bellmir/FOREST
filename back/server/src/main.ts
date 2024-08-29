@@ -17,6 +17,7 @@ async function bootstrap() {
     .setDescription('Authentication API documentation')
     .setVersion('1.0')
     .addTag('auth')
+    .addTag('web3')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -119,6 +119,12 @@ export const LocationSchema = SchemaFactory.createForClass(Location);
 // Deposit Document
 export type DepositDocument = Deposit & Document;
 
+export enum DepositStatus {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+}
+
 @Schema()
 export class Deposit {
   @Prop({ required: true })
@@ -140,8 +146,8 @@ export class Deposit {
   timestamp: Date;
 
   // 이런 건 원칙적으로는 enum을 적용하는 편이 좋음.
-  @Prop()
-  status: string;
+  @Prop({ type: String, enum: DepositStatus, default: DepositStatus.Pending })
+  status: DepositStatus;
 }
 
 export const DepositSchema = SchemaFactory.createForClass(Deposit);

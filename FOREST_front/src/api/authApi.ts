@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { api } from '@/api';
 import { useTokenStore } from '@/stores/token';
 import { computed } from 'vue';
-import { CommonResType } from '@/types/commonApiType';
 
 // 유저정보
 type GetUserInfoResType = {

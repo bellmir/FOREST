@@ -6,10 +6,16 @@
 			<div class="changeArea_content">
 				<div class="storageInventory">
 					<div class="formBox">
-						<h3 class="storagetitle">출발 창고</h3>
-						<Select class="storageSelect" v-model="fromStorage" :options="storageList" placeholder="창고 선택" />
+						<h3 class="storagetitle">출발지</h3>
+						<Select
+							class="storageSelect"
+							v-model="fromStorage"
+							:options="fromLocationList"
+							optionLabel="name"
+							placeholder="창고 선택"
+						/>
 					</div>
-					<div v-if="fromStorage" class="formBox">
+					<div v-if="fromStorage?._id" class="formBox">
 						<h4>보낼 품목</h4>
 						<ul class="inventoryList">
 							<li class="list_item" v-for="(item, idx) in moveList">
@@ -62,10 +68,16 @@
 				<div class="line"></div>
 				<div class="storageInventory">
 					<div class="formBox">
-						<h3 class="storagetitle">도착 창고</h3>
-						<Select class="storageSelect" v-model="toStorage" :options="storageList" placeholder="창고 선택" />
+						<h3 class="storagetitle">도착지</h3>
+						<Select
+							class="storageSelect"
+							v-model="toStorage"
+							:options="toLocationList"
+							optionLabel="name"
+							placeholder="창고 선택"
+						/>
 					</div>
-					<div v-if="toStorage" class="formBox">
+					<div v-if="toStorage?._id" class="formBox">
 						<h4>재고</h4>
 						<ul class="inventoryList">
 							<li class="list_item" v-for="(item, idx) in toStorageItemList">
@@ -92,7 +104,9 @@
 
 			<div v-if="fromStorage && toStorage" class="change_carbon">
 				<ul>
-					<li><span class="carbon_title">운송 거리</span><span class="carbon_content distance">1,000 km</span></li>
+					<li>
+						<span class="carbon_title">운송 거리</span><span class="carbon_content distance">{{ distance }} km</span>
+					</li>
 					<li><span class="carbon_title">탄소 소비량</span><span class="carbon_content amount">1,000 kg</span></li>
 				</ul>
 			</div>
@@ -108,20 +122,47 @@
 
 <script setup lang="ts">
 // core
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 // primevue
 import Select from 'primevue/select';
 import InputNumber from 'primevue/inputnumber';
 import { useToast } from 'primevue/usetoast';
 // image
 import TransactionIcon from '@/assets/image/common/icon/icon_transaction.svg?component';
+// api
+import { useGetLocationList, useGetStartLocationList } from '@/api/inventoryMoveApi';
 
 const toast = useToast();
 
 const fromStorage = ref();
 const toStorage = ref();
 
-const storageList = ['창고1', '창고2', '창고3', '창고4', '창고5'];
+const { data: fromLocationList } = useGetStartLocationList();
+const { data: toLocationList } = useGetLocationList();
+
+const distance = computed(() => {
+	if (!fromStorage.value || !toStorage.value) {
+		return 0;
+	} else {
+		const lat1 = Number(fromStorage.value.x_cord);
+		const lng1 = Number(fromStorage.value.y_cord);
+		const lat2 = Number(toStorage.value.x_cord);
+		const lng2 = Number(toStorage.value.y_cord);
+		console.log(lat1, lng1, lat2, lng2);
+		function deg2rad(deg: number): number {
+			return deg * (Math.PI / 180);
+		}
+		const R = 6371; // Radius of the earth in km
+		const dLat = deg2rad(lat2 - lat1); // deg2rad below
+		const dLon = deg2rad(lng2 - lng1);
+		const a =
+			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const d = R * c; // Distance in km
+		return d;
+	}
+});
 const fromStorageItemList = [
 	{
 		product_name: '품목1',

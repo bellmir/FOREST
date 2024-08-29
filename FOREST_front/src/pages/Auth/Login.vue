@@ -177,7 +177,7 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 		margin-bottom: var(--space-2x-large);
 	}
 	.logo {
-		width: 15rem;
+		width: 12rem;
 		transform: translateX(-5px);
 		img {
 			@include mixin_fullImg($object-fit: contain);

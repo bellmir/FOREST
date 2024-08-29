@@ -1,7 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/vue-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { api } from '@/api';
-import { CommonResType } from '@/types/commonApiType';
 import { Ref } from 'vue';
 
 // 입출고내역 정보

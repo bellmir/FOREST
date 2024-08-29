@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Deposit, DepositDocument } from 'src/schema/schema';
@@ -15,7 +20,7 @@ export class DepositsService implements OnModuleInit {
 
   async mockingDeposits() {}
 
-  async listDeposit(): Promise<Deposit[]> {
+  public async listDeposits(): Promise<Deposit[]> {
     try {
       return await this.depositModel.find().exec();
     } catch (error) {
@@ -23,12 +28,12 @@ export class DepositsService implements OnModuleInit {
     }
   }
 
-  async createDeposit(Deposit: Partial<Deposit>): Promise<Deposit> {
+  public async createDeposits(Deposit: Partial<Deposit>): Promise<Deposit> {
     const newDeposit = new this.depositModel(Deposit);
     return newDeposit.save();
   }
 
-  async deleteDeposit(id: string): Promise<Deposit> {
+  async deleteDeposits(id: string): Promise<Deposit> {
     return this.depositModel.findByIdAndDelete(id);
   }
 

@@ -9,7 +9,13 @@ import {
 } from '@nestjs/common';
 import { DepositsService } from './deposits.service';
 import { Deposit } from '../schema/schema';
-import { ApiBody, ApiParam, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiParam,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('deposits')
 @Controller('deposits')
@@ -31,7 +37,7 @@ export class DepositsController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiBody({ type: Deposit, description: 'deposits details' })
   async createdeposits(@Body() body: Partial<Deposit>): Promise<Deposit> {
-    return this.depositsService.createdeposits(body);
+    return this.depositsService.createDeposits(body);
   }
 
   @Post('delete')
@@ -40,14 +46,19 @@ export class DepositsController {
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiParam({ name: 'id', type: String, description: 'deposits ID' })
   async deletedeposits(@Param('id') id: string): Promise<Deposit> {
-    return this.depositsService.deletedeposits(id);
+    return this.depositsService.deleteDeposits(id);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get depositss by user ID' })
   @ApiResponse({ status: 200, description: 'deposits successfully retrieved.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
-  @ApiParam({ name: 'id', type: String, description: 'location ID', example: '66d046a2d034db15cf415dbc' })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'location ID',
+    example: '66d046a2d034db15cf415dbc',
+  })
   async getDeposits(@Param('id') id: string): Promise<Deposit[]> {
     return this.depositsService.getDepositssByLocationId(id);
   }

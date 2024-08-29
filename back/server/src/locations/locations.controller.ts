@@ -47,7 +47,7 @@ export class LocationController {
   @ApiOperation({ summary: 'Get locations by user ID' })
   @ApiResponse({ status: 200, description: 'location successfully retrieved.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
-  @ApiParam({ name: 'id', type: String, description: 'user ID', example: '66d0491df81db6bd337be4a2' })
+  @ApiParam({ name: 'id', type: String, description: 'user ID', example: '66d04f2a983cf9ad425988f0' })
   async getLocation(@Param('id') id: string): Promise<Location[]> {
     return this.locationService.getLocationsByUserId(id);
   }

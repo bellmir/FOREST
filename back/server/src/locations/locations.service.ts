@@ -65,7 +65,7 @@ export class LocationService implements OnModuleInit {
         name,
         x_cor,
         y_cor,
-        item_list: {}, // Initialize as an empty map
+        item_list: [], // Initialize as an empty map
         charged_users: randomUserIds as unknown as Schema.Types.ObjectId[], // Assign random user IDs
       };
 
@@ -86,10 +86,28 @@ export class LocationService implements OnModuleInit {
     return locations;
   }
 
-  async listLocation(): Promise<Location[]> {
+  async listLocation(): Promise<any[]> {
     try {
-      return await this.locationModel.find().exec();
+      const locations = await this.locationModel.find().exec();
+
+      return locations.map((location) => {
+        return {
+          id: location._id,
+          type: location.type,
+          name: location.name,
+          x_cor: location.x_cor,
+          y_cor: location.y_cor,
+          item_list: location.item_list.map((item) => {
+            return {
+              name: item.name,
+              amount: item.amount,
+            };
+          }),
+          charged_users: location.charged_users,
+        };
+      });
     } catch (error) {
+      console.error('Error fetching locations:', error);
       throw error;
     }
   }

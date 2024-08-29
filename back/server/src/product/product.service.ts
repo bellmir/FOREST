@@ -110,12 +110,12 @@ export class ProductService implements OnModuleInit {
     for (const location of locations) {
       // Randomly select up to 10 products
       const selectedProducts = faker.helpers.arrayElements(products, 10);
-      const itemList: Record<string, number> = {};
+      const itemList: { name: string; amount: number }[] = [];
 
       selectedProducts.forEach((product) => {
         // Assign a random quantity between 50 and 1000
         const quantity = faker.number.int({ min: 50, max: 1000 });
-        itemList[product.name] = quantity;
+        itemList.push({ name: product.name, amount: quantity });
       });
 
       // Update the location's item_list with the selected products

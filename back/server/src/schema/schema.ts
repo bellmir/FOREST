@@ -106,9 +106,11 @@ export class Location {
 
   @Prop()
   y_cor: string;
-
-  @Prop({ type: Map, of: Number })
-  item_list: Record<string, number>;
+  @Prop({
+    type: [{ name: String, amount: Number }],
+    default: [],
+  })
+  item_list: { name: string; amount: number }[];
 
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'User' })
   charged_users: MongooseSchema.Types.ObjectId[];

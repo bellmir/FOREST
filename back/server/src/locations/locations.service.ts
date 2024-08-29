@@ -85,4 +85,29 @@ export class LocationService implements OnModuleInit {
     console.log('50개의 위치 데이터가 생성되었습니다.');
     return locations;
   }
+
+  async listLocation(): Promise<Location[]> {
+    try {
+      return await this.locationModel.find().exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createLocation(location: Partial<Location>): Promise<Location> {
+    const newLocation = new this.locationModel(location);
+    return newLocation.save();
+  }
+
+  async deleteLocation(id: string): Promise<Location> {
+    return this.locationModel.findByIdAndDelete(id);
+  }
+
+  async getLocationsByUserId(userId: string): Promise<Location[]> {
+    return this.locationModel
+      .find({
+        charged_users: userId,
+      })
+      .exec();
+  }
 }

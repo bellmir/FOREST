@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LocationSchema } from '../schema/schema';
+import { Location, LocationSchema, User, UserSchema } from '../schema/schema';
 import { LocationService } from './locations.service';
 
 @Module({
@@ -9,6 +9,10 @@ import { LocationService } from './locations.service';
       {
         name: Location.name,
         schema: LocationSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
   ],

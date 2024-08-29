@@ -174,3 +174,55 @@ export class Logistics {
 }
 
 export const LogisticsSchema = SchemaFactory.createForClass(Logistics);
+
+export type ReportDocument = Report & Document;
+
+@Schema()
+export class Report {
+  @ApiProperty({
+    example: 'Report Title',
+  })
+  @Prop({ required: true })
+  title: string;
+
+  @ApiProperty({
+    example: 'Report Description',
+  })
+  @Prop({ required: true })
+  description: string;
+
+  @ApiProperty({
+    example: '1234-567890',
+  })
+  @Prop({ required: true })
+  num: string;
+
+  @ApiProperty({
+    example: '2024',
+  })
+  @Prop({ default: '2024' })
+  year: string;
+
+  @ApiProperty({
+    example: '당사는 지속 가능한 경영을 위해 환경 정책과 이니셔티브를 강화하고 있습니다. 탄소 발자국 감소, 에너지 효율성 향상, 재생 에너지 사용 확대 등을 통해 환경에 미치는 영향을 최소화하고 있습니다.',
+  })
+  @Prop()
+  eco_report: string;
+
+  @ApiProperty({
+    example: '당사는 지속 가능한 경영을 위해 사회적 책임을 다하고 있습니다. 고객, 공급망, 지역사회와의 협력을 통해 사회적 가치를 창출하고 있습니다. 또한, 공정한 경영과 윤리적 경영을 위해 노력하고 있습니다.',
+  })
+  @Prop()
+  social_report: string;
+
+  @ApiProperty({
+    example: '당사의 운영은 투명성, 책임성, 윤리적 경영을 바탕으로 하고 있습니다. 모든 이해관계자의 이익을 보호하기 위해 견고한 지배구조를 유지하고 있습니다.',
+  })
+  @Prop()
+  gov_report: string;
+
+  @Prop({ type: Date, default: Date.now })
+  timestamp: Date;
+}
+
+export const ReportSchema = SchemaFactory.createForClass(Report);

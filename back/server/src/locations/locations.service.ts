@@ -1,13 +1,12 @@
 import { HttpException, HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { LocationDocument } from 'src/schema/schema';
-import { Location } from 'src/schema/schema';
-
+import { User, Location, LocationDocument } from 'src/schema/schema';
 @Injectable()
 export class LocationService implements OnModuleInit {
   constructor(
     @InjectModel(Location.name) private locationModel: Model<LocationDocument>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   async onModuleInit() {
@@ -33,7 +32,13 @@ export class LocationService implements OnModuleInit {
     return this.locationModel.findByIdAndDelete(id);
   }
 
-  async getLocationsById(id: string): Promise<Location[]> {
-    return this.locationModel.find({ _id: id }).exec();
+  async getLocationsById(userId: string): Promise<Location[]> {
+    const locations = await this.locationModel
+      .find({
+        charged_users: userId,
+      })
+      .exec();
+
+    return locations;
   }
 }

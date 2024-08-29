@@ -1,5 +1,5 @@
 <template>
-	<main class="ESGReportDetail">
+	<main class="ESGReport">
 		<h1 class="g_pageTitle">ESG 보고서 관리</h1>
 		<FilterBox class="searchFilter" @onSearch="onSearch" @onInit="onInit">
 			<FilterOptionDate
@@ -123,7 +123,7 @@ const rowClick = (data: any) => {
 </script>
 
 <style scoped lang="scss">
-.ESGReportDetail {
+.ESGReport {
 	@include mixin_mainContainer; // mainContainer 적용
 	.searchFilter {
 		.categoryOption {

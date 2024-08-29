@@ -30,6 +30,13 @@ const checkLogout = async (_: any, from: any, next: any) => {
 const routes = [
 	{
 		// 대시보드(홈)
+		path: '/QRCalculator',
+		name: 'QRCalculator',
+		component: () => import('@/pages/QRCalculator/QRCalculator.vue'),
+	},
+
+	{
+		// 대시보드(홈)
 		path: '/',
 		name: 'Dashboard',
 		component: Dashboard,
@@ -43,10 +50,24 @@ const routes = [
 		beforeEnter: [checkLogin],
 	},
 	{
-		// 재고이동
-		path: '/InventoryMove',
-		name: 'InventoryMove',
-		component: () => import('@/pages/InventoryMove/InventoryMove.vue'),
+		// 재고이동 - 재고이동신청
+		path: '/InventoryMove/InventoryMoveRequest',
+		name: 'InventoryMoveRequest',
+		component: () => import('@/pages/InventoryMove/InventoryMoveRequest.vue'),
+		beforeEnter: [checkLogin],
+	},
+	{
+		// 재고이동 - 재고이동내역
+		path: '/InventoryMove/InventoryMoveHistory',
+		name: 'InventoryMoveHistory',
+		component: () => import('@/pages/InventoryMove/InventoryMoveHistory.vue'),
+		beforeEnter: [checkLogin],
+	},
+	{
+		// 재고이동 - 재고이동상세
+		path: '/InventoryMove/InventoryMoveDetail/:movePk',
+		name: 'InventoryMoveDetail',
+		component: () => import('@/pages/InventoryMove/InventoryMoveDetail.vue'),
 		beforeEnter: [checkLogin],
 	},
 	{

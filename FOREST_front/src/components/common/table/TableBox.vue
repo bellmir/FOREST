@@ -7,8 +7,8 @@
 				<Select
 					v-if="showSelectRow"
 					class="select_row"
-					:modelValue="route.query.row ? rowList.find((el) => el.value === route.query.row) : rowList[0]"
-					@update:modelValue="(val) => setRow(val.value)"
+					:modelValue="route.query.row ? rowList.find((el: any) => el.value === route.query.row) : rowList[0]"
+					@update:modelValue="(val: any) => setRow(val.value)"
 					:options="rowList"
 					optionLabel="label"
 				/>

@@ -22,7 +22,7 @@
 				</router-link>
 			</li>
 
-			<!--입출고내역-->
+			<!--상품 입출고-->
 			<li
 				id="InventoryHistory"
 				:class="selectedMenu === 'InventoryHistory' && 'on'"
@@ -32,18 +32,29 @@
 					<span class="icon_wrap">
 						<IconLeftMenuHistory />
 					</span>
-					<p>입출고내역</p>
+					<p>상품 입출고</p>
 				</router-link>
 			</li>
 
 			<!--재고이동-->
-			<li id="InventoryMove" :class="selectedMenu === 'InventoryMove' && 'on'" @click="onSelectMenu('InventoryMove')">
-				<router-link to="/InventoryMove">
+			<li id="InventoryMove" class="closeMenu" :class="selectedMenu === 'InventoryMove' && 'on'">
+				<div class="depth" @click="onSelectMenu('InventoryMove', true)">
 					<span class="icon_wrap">
-						<IconLeftMenuInventory />
+						<IconLeftMenuInventory viewBox="0 0 24 24" />
 					</span>
-					<p>재고 이동 서비스</p>
-				</router-link>
+					<p>재고 이동</p>
+					<div class="icon_toggle" :class="selectedSubMenu === 'InventoryMove' && 'icon_close'">
+						<img src="@/assets/image/common/icon/icon_expand.svg" alt="" />
+					</div>
+				</div>
+				<ul v-if="selectedSubMenu === 'InventoryMove' && 'on'" class="submenu">
+					<li :class="activeSubmenu === 'InventoryMoveRequest' && 'submenuOn'" id="InventoryMoveRequest">
+						<router-link :to="{ name: 'InventoryMoveRequest' }"><span>재고 이동 신청</span></router-link>
+					</li>
+					<li :class="activeSubmenu === 'InventoryMoveHistory' && 'submenuOn'" id="InventoryMove">
+						<router-link :to="{ name: 'InventoryMoveHistory' }"><span>재고 이동 내역</span></router-link>
+					</li>
+				</ul>
 			</li>
 
 			<!--ESG 보고서-->

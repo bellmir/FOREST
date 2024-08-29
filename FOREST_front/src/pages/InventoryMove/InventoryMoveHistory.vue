@@ -1,18 +1,12 @@
 <template>
-	<main class="InventoryHistory">
-		<h1 class="g_pageTitle">상품 입출고</h1>
+	<main class="InventoryMoveHistory">
+		<h1 class="g_pageTitle">재고 이동 내역</h1>
 		<FilterBox class="searchFilter" @onSearch="onSearch" @onInit="onInit">
 			<FilterOptionDate
 				v-model:dateMode="filterDateMode"
 				v-model:startDate="filterStartDate"
 				v-model:endDate="filterEndDate"
 			/>
-			<FilterOption title="카테고리">
-				<div class="categoryOption">
-					<Select v-model="filterDivision" :options="filterDivisionList" showClear placeholder="구분" />
-					<Select v-model="filterCategory" :options="filterCategoryList" showClear placeholder="항목" />
-				</div>
-			</FilterOption>
 			<FilterOptionSearch
 				v-model:searchCategory="searchCategory"
 				:searchCategoryList="searchCategoryList"
@@ -30,26 +24,40 @@
 			"
 			:totalDataCount="data.length"
 			:rowHover="true"
+			@rowClick="rowClick"
 		>
+			<template #action>
+				<button
+					@click="
+						router.push({
+							name: 'InventoryMoveRequest',
+						})
+					"
+				>
+					재고 이동 신청
+				</button>
+			</template>
 			<template #content>
 				<Column
-					field="product_code"
+					field="request_code"
 					bodyStyle="width: 10rem; min-width: 7rem; word-break: break-all"
-					header="상품 번호"
+					bodyClass="g_link"
+					header="내역 번호"
 				>
 				</Column>
-				<Column field="division" bodyStyle="width: 6rem; min-width: 5rem" header="구분">
+				<Column field="status" bodyStyle="width: 6rem; min-width: 5rem" header="상태">
 					<template #body="{ data }">
-						<span
-							class="division"
-							:class="{ incoming: data.division === '출고', outcoming: data.division === '입고' }"
-							>{{ data.division }}</span
-						>
+						<div class="status" :class="{ check: data.status === '요청' }">{{ data.status }}</div>
 					</template>
 				</Column>
-				<Column field="category" bodyStyle="width: 7rem; min-width: 6rem" header="카테고리"></Column>
-				<Column field="product_name" bodyStyle="width: 28rem; min-width: 15rem" header="상품명"> </Column>
-				<Column field="count" bodyStyle="width: 12rem; min-width: 9rem; word-break: break-all;" header="개수"> </Column>
+				<Column field="request_name" bodyStyle="width: 28rem; min-width: 15rem" header="내역명"> </Column>
+				<Column field="from" bodyStyle="width: 9rem; min-width: 8rem; word-break: break-all;" header="출발지"></Column>
+				<Column field="to" bodyStyle="width: 9rem; min-width: 8rem; word-break: break-all;" header="도착지"></Column>
+				<Column
+					field="enrollment_date"
+					bodyStyle="width: 9rem; min-width: 8rem; word-break: break-all; color: var(--color-font-lighter)"
+					header="이동일"
+				></Column>
 			</template>
 		</TableBox>
 	</main>
@@ -68,56 +76,39 @@ import FilterOptionDate from '@/components/common/filter/FilterOptionDate.vue';
 // primevue
 import Column from 'primevue/column';
 import Select from 'primevue/select';
-// api
-import { useGetInventoryHistory } from '@/api/inventoryHistoryApi';
 
 const route = useRoute();
 const router = useRouter();
 
-const searchCategoryList = ['상품명', '상품코드']; // 검색 카테고리 리스트
-const filterDivisionList = ['출고', '입고']; // 구분 필터 리스트
-const filterCategoryList = ['남성의류', '여성의류', '유니섹스', '액세서리', '기타']; // 항목 필터 리스트
+const searchCategoryList = ['내역번호', '창고명']; // 검색 카테고리 리스트
 
 const filterDateMode = ref(); // 기간 필터 - 모드
 const filterStartDate = ref(); // 기간 필터 - 시작일
 const filterEndDate = ref(); // 기간 필터 - 종료일
-const filterState = ref(); // 상태 필터
-const filterDivision = ref(); // 구분 필터
-const filterCategory = ref(); // 항목 필터
-const searchCategory = ref('상품명'); // 검색 카테고리
+const searchCategory = ref('내역번호'); // 검색 카테고리
 const search = ref(''); // 검색어
-
-// const { data: inventoryHistoryData, isLoading: isGetInventoryHistoryLoading } = useGetInventoryHistory(
-// 	computed(() => ({
-// 		page: Number(route.query.page ?? 1),
-// 		row: Number(route.query.row ?? 10),
-// 		// startDate: filterStartDate.value,
-// 		// endDate: filterEndDate.value,
-// 		// state: filterState.value,
-// 		// division: filterDivision.value,
-// 		// category: filterCategory.value,
-// 		// searchCategory: searchCategory.value,
-// 		// search: search.value,
-// 	}))
-// );
 
 const data = ref(
 	Array(100)
 		.fill({
-			// product_pk: 1,
-			product_code: '123456789',
-			category: '여성의류',
-			division: '입고',
-			product_name: '셀린 자수 배색 스트라이프 티셔츠',
-			count: '1,000',
+			// move_pk: 1,
+			request_name: '창고 이동 샘플',
+			request_code: '123456789',
+			status: '요청',
+			from: '창고2',
+			to: '창고1',
 			enrollment_date: '2024-08-20',
 		})
-		.map((item, index) => ({ ...item, product_pk: index + 1 }))
+		.map((item, index) => ({ ...item, move_pk: index + 1 }))
 		.map((item, index) => {
-			if (index < 4) {
-				item.division = '출고';
+			if (index > 4) {
+				item.status = '완료';
+				item.from = '창고1';
+				item.to = '창고2';
+				return item;
+			} else {
+				return item;
 			}
-			return item;
 		})
 );
 
@@ -139,10 +130,19 @@ const onSearch = () => {
 const onInit = () => {
 	console.log('onInit');
 };
+
+const rowClick = (data: any) => {
+	router.push({
+		name: 'InventoryMoveDetail',
+		params: {
+			movePk: data.data.move_pk,
+		},
+	});
+};
 </script>
 
 <style scoped lang="scss">
-.InventoryHistory {
+.InventoryMoveHistory {
 	@include mixin_mainContainer; // mainContainer 적용
 	.searchFilter {
 		.categoryOption {
@@ -154,12 +154,14 @@ const onInit = () => {
 		}
 	}
 	.searchResult {
-		.division {
-			&.incoming {
-				color: var(--color-danger);
+		.status {
+			&.check {
+				color: var(--color-warning);
 			}
-			&.outcoming {
-				color: var(--color-success);
+		}
+		:deep(tbody) {
+			tr {
+				cursor: pointer;
 			}
 		}
 	}

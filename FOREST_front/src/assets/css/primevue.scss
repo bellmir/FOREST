@@ -250,6 +250,7 @@ textarea.p-textarea {
 	--p-toast-summary-font-size: var(--font-s-x-small);
 }
 .p-toast-detail {
+	--p-toast-success-detail-color: var(--color-success);
 	--p-toast-error-detail-color: var(--color-danger);
 	--p-toast-detail-font-size: var(--font-s-2x-small);
 }

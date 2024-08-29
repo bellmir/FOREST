@@ -3,6 +3,9 @@
 		<section class="loginForm">
 			<div class="loginForm_content">
 				<div class="c_section_subtitleBox">
+					<div class="logo">
+						<img src="@/assets/image/common/bi/logo_title.png" alt="logo" />
+					</div>
 					<h2 class="c_section_subtitle">로그인</h2>
 				</div>
 				<div class="c_fieldArea">
@@ -84,12 +87,11 @@ const [password] = defineField('password');
 
 // 로그인 클릭시
 const onSubmitLogin = handleSubmit(async (values: any) => {
-	if (isLoginPending) return;
+	if (isLoginPending.value) return;
 
 	const res = await login(values);
-
-	if (res.data.success) {
-		tokenStore.setAccessToken(res.data.data.access_token);
+	if (res.data.access_token) {
+		tokenStore.setAccessToken(res.data.access_token);
 		toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
 		router.push('/');
 	} else {
@@ -174,6 +176,13 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 	@media screen and (max-width: 768px) {
 		margin-bottom: var(--space-2x-large);
 	}
+	.logo {
+		width: 15rem;
+		transform: translateX(-5px);
+		img {
+			@include mixin_fullImg($object-fit: contain);
+		}
+	}
 }
 .c_section_subtitle {
 	display: flex;
@@ -214,7 +223,7 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 }
 .Login {
 	@include mixin_mainContainer; // mainContainer 적용
-	margin-top: 0;
+	margin-top: 0 !important;
 	height: 100vh;
 	.loginForm {
 		@include mixin_section; // section 적용

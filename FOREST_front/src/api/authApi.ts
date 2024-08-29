@@ -33,14 +33,13 @@ export const useGetUserInfo = () => {
 // 로그인
 type LoginDataType = {
 	email: string;
-	passwd: string;
+	password: string;
 };
-type LoginResType = CommonResType<{
+type LoginResType = {
 	access_token: string;
-	refresh_token: string;
-}>;
+};
 export const useLogin = () => {
-	const url = '/login';
+	const url = '/auth/login';
 	return useMutation<AxiosResponse<LoginResType>, AxiosError, LoginDataType>({
 		mutationFn: (data: LoginDataType) => api.post(url, data),
 	});

@@ -29,8 +29,6 @@ export class ReportService {
   async getReport(id: string): Promise<Report> {
     return this.reportModel.findById(id);
   }
-  
-  // async getEntireReport(): 
 
   async resetCollection(): Promise<void> {
     await this.reportModel.deleteMany({});

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   Abi,
@@ -11,18 +11,28 @@ import {
 import { localhost, sepolia } from 'viem/chains';
 import * as fs from 'fs';
 import { privateKeyToAccount } from 'viem/accounts';
+import { InjectModel } from '@nestjs/mongoose';
+import { Location, LocationDocument } from 'src/schema/schema';
+import { Model } from 'mongoose';
 
 const rawAbi = fs.readFileSync('src/contracts/Logistics.json', 'utf8');
 const LogisticsABI = JSON.parse(rawAbi);
 
 @Injectable()
-export class Web3Service {
+export class Web3Service implements OnModuleInit {
   private publicClient: any;
   private walletClient: any;
   private contractAddress: Address;
   private contractAbi: Abi;
 
-  constructor(private configService: ConfigService) {
+  async onModuleInit() {
+    // await this.mockLocationsToSmartContract();
+  }
+
+  constructor(
+    private configService: ConfigService,
+    @InjectModel(Location.name) private locationModel: Model<LocationDocument>,
+  ) {
     const isLocal =
       this.configService.get<string>('NODE_ENV') === 'development';
     console.log('[Web3Service] isLocal:', isLocal);
@@ -58,16 +68,21 @@ export class Web3Service {
   }
 
   async getContractDataTest() {
-    const locationData = await this.publicClient.readContract({
-      address: this.contractAddress,
-      abi: this.contractAbi,
-      functionName: 'getLocation',
-      args: [BigInt(0)],
-    });
+    let locationDatas = [];
 
-    console.log(locationData);
+    for (let i = 0; i < 50; i++) {
+      const locationData = await this.publicClient.readContract({
+        address: this.contractAddress,
+        abi: this.contractAbi,
+        functionName: 'getLocation',
+        args: [BigInt(i)],
+      });
+      locationDatas.push({ index: i, data: locationData });
+    }
 
-    return locationData;
+    // console.log(locationData);
+
+    return locationDatas;
   }
 
   async callSmartContractFunction() {
@@ -81,5 +96,92 @@ export class Web3Service {
     });
 
     return createLocationTx;
+  }
+
+  async mockLocationsToSmartContract() {
+    // 위치 데이터에 있는 정보를 스마트 계약에 추가
+    const mockLocations = await this.locationModel.find().exec();
+
+    console.log(`Found ${mockLocations.length} locations to mock.`);
+
+    let i = 0;
+    for (const location of mockLocations) {
+      // Prepare arguments for the smart contract function
+      const locationType = location.type;
+      const name = location.name;
+      const xCor = location.x_cor;
+      const yCor = location.y_cor;
+
+      // Convert the charged_users to an array of UUIDs (assuming you have them stored as ObjectIds)
+      const chargedUserUUIDs = location.charged_users.map((userId) =>
+        userId.toString(),
+      );
+
+      try {
+        // Call the createLocation function in the smart contract
+        const createLocationTx = await this.walletClient.writeContract({
+          address: this.contractAddress,
+          abi: this.contractAbi,
+          functionName: 'createLocation',
+          args: [locationType, name, xCor, yCor, chargedUserUUIDs],
+        });
+
+        // Verify the location was correctly added
+        await this.verifyLocationInContract(i, location);
+
+        console.log(
+          `Location ${name} added to the smart contract with transaction: ${createLocationTx.hash}`,
+        );
+      } catch (error) {
+        console.error(
+          `Error adding location ${name} to the smart contract: ${error.message}`,
+        );
+      } finally {
+        i++;
+      }
+    }
+  }
+
+  // Function to verify if the location was added correctly
+  async verifyLocationInContract(
+    locationId: number,
+    location: LocationDocument,
+  ) {
+    try {
+      // Call the getLocation function in the smart contract
+      const locationData = await this.publicClient.readContract({
+        address: this.contractAddress,
+        abi: this.contractAbi,
+        functionName: 'getLocation',
+        args: [BigInt(locationId)],
+      });
+
+      // Extract the returned values
+      const [locationType, name, xCor, yCor, userList] = locationData;
+
+      // Verify the data matches the original location data
+      if (
+        locationType === location.type &&
+        name === location.name &&
+        xCor === location.x_cor &&
+        yCor === location.y_cor &&
+        JSON.stringify(userList) ===
+          JSON.stringify(
+            location.charged_users.map((userId) => userId.toString()),
+          )
+      ) {
+        console.log(
+          `Location ${name} verified successfully in the smart contract.`,
+        );
+      } else {
+        console.error(
+          `Mismatch in data for location ${name}. Verification failed.`,
+        );
+      }
+    } catch (error) {
+      console.error(
+        `Error verifying location ${location.name} in the smart contract: ${error.message}`,
+      );
+    }
   }
 }

@@ -74,7 +74,8 @@ export class UsersService implements OnModuleInit {
       }
     }
 
-    console.log('100개의 사용자 데이터가 생성되었습니다.');
+    if (users.length !== 0)
+      console.log('100개의 사용자 데이터가 생성되었습니다.');
     return users;
   }
 }

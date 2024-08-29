@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Body, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
@@ -39,4 +39,13 @@ export class AuthController {
   async register(@Body() body: Partial<User>) {
     return this.usersService.create(body);
   }
+
+  @Get('list')
+  @ApiOperation({ summary: 'List users' })
+  @ApiResponse({ status: 200, description: 'Users successfully listed.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  async listUser(): Promise<User[]> {
+    return this.usersService.listUser();
+  }
+
 }

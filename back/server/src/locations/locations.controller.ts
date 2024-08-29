@@ -13,7 +13,7 @@ import { ApiBody, ApiParam, ApiOperation, ApiResponse, ApiTags } from '@nestjs/s
 
 @ApiTags('location')
 @Controller('location')
-export class locationController {
+export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Get('list')
@@ -44,10 +44,10 @@ export class locationController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get location' })
+  @ApiOperation({ summary: 'Get locations by user ID' })
   @ApiResponse({ status: 200, description: 'location successfully retrieved.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
-  @ApiParam({ name: 'id', type: String, description: 'location ID' })
+  @ApiParam({ name: 'id', type: String, description: 'user ID' })
   async getLocation(@Param('id') id: string): Promise<Location[]> {
     return this.locationService.getLocationsById(id);
   }

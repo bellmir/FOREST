@@ -30,6 +30,14 @@ export class UsersService implements OnModuleInit {
     return newUser.save();
   }
 
+  async listUser(): Promise<User[]> {
+    try {
+      return await this.userModel.find().exec();
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   async mockingUser() {
     const users = [];
 

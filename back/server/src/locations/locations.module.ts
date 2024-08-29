@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LocationSchema } from '../schema/schema';
+import { LocationController } from './locations.controller';
+import { Location, LocationSchema } from '../schema/schema';
 import { LocationService } from './locations.service';
-import { Location } from '../schema/schema';
 
 @Module({
   imports: [
@@ -14,6 +14,6 @@ import { Location } from '../schema/schema';
     ]),
   ],
   providers: [LocationService],
-  exports: [LocationService],
+  controllers: [LocationController],
 })
 export class LocationModule {}

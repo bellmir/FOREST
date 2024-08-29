@@ -43,7 +43,7 @@ export class UsersService implements OnModuleInit {
 
     for (let i = 1; i <= 100; i++) {
       const email = `test${i}@test.com`;
-      const password = 'password123';
+      const password = 'test1234!';
       const name = faker.person.fullName();
       const brands = ['Brand A', 'Brand B', 'Brand C', 'Brand D', 'Brand E'];
       const brand = faker.helpers.arrayElement(brands); // 브랜드를 무작위로 선택

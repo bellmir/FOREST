@@ -115,23 +115,13 @@ const fromStorage = ref();
 const toStorage = ref();
 
 const storageList = ['창고1', '창고2', '창고3', '창고4', '창고5'];
-const fromStorageItemList = [
-	{
-		product_name: '품목1',
-		product_code: '1111111',
-		quantity: 10,
-	},
-	{
-		product_name: '품목2',
-		product_code: '2222222',
-		quantity: 20,
-	},
-	{
-		product_name: '품목3',
-		product_code: '3333333',
-		quantity: 30,
-	},
-];
+
+const fromStorageItemList = Array.from({ length: 50 }, () => ({
+  product_name: faker.commerce.productName(),
+  product_code: faker.random.alphaNumeric(7),
+  quantity: faker.datatype.number({ min: 1, max: 100 }),
+}));
+
 const addableFromStorageItemList = ref([...fromStorageItemList]);
 const toStorageItemList = [
 	{

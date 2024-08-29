@@ -127,22 +127,36 @@ export enum DepositStatus {
 
 @Schema()
 export class Deposit {
+  @ApiProperty({
+    example: 'Deposit Title',
+  })
   @Prop({ required: true })
   title: string;
 
+  @ApiProperty({
+    example: '66d04f2a983cf9ad425988f0',
+  })
   @Prop({ required: true })
   charged_user: string;
 
+  @ApiProperty({
+    example: '66d04f29983cf9ad425988ed',
+  })
   @Prop({ required: true })
   confirm_user: string;
 
+  @ApiProperty({
+    example: '66d04f2a983cf9ad42598a1a',
+  })
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: 'Location',
     required: true,
   })
   source_location: MongooseSchema.Types.ObjectId;
-
+  @ApiProperty({
+    example: '66d04f2a983cf9ad42598a22',
+  })
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: 'Location',
@@ -150,6 +164,9 @@ export class Deposit {
   })
   dest_location: MongooseSchema.Types.ObjectId;
 
+  @ApiProperty({
+    example: { item1: 1, item2: 2 },
+  })
   @Prop({ type: Map, of: Number, required: true })
   items: Record<string, number>;
 

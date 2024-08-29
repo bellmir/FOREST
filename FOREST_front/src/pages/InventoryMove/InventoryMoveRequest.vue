@@ -92,8 +92,14 @@
 
 			<div v-if="fromStorage && toStorage" class="change_carbon">
 				<ul>
-					<li><span class="carbon_title">운송 거리</span><span class="carbon_content distance">1,000 km</span></li>
-					<li><span class="carbon_title">탄소 소비량</span><span class="carbon_content amount">1,000 kg</span></li>
+					<li>
+						<span class="carbon_title">운송 거리</span
+						><span class="carbon_content distance">{{ toStorage === '창고2' ? '1,000' : '800' }} km</span>
+					</li>
+					<li>
+						<span class="carbon_title">탄소 소비량</span
+						><span class="carbon_content amount">{{ toStorage === '창고2' ? '1,100' : '880' }} kg</span>
+					</li>
 				</ul>
 			</div>
 			<div class="change_action">
@@ -109,6 +115,7 @@
 <script setup lang="ts">
 // core
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 // primevue
 import Select from 'primevue/select';
 import InputNumber from 'primevue/inputnumber';
@@ -116,6 +123,7 @@ import { useToast } from 'primevue/usetoast';
 // image
 import TransactionIcon from '@/assets/image/common/icon/icon_transaction.svg?component';
 
+const router = useRouter();
 const toast = useToast();
 
 const fromStorage = ref();
@@ -196,10 +204,11 @@ const onMove = () => {
 	toast.add({
 		severity: 'success',
 		summary: '성공',
-		detail: '재고가 이동되었습니다.',
+		detail: '재고 이동 신청이 완료되었습니다.',
 		group: 'bc',
 		life: 3000,
 	});
+	router.push({ name: 'InventoryMoveHistory' });
 };
 </script>
 

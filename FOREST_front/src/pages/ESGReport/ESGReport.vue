@@ -88,7 +88,7 @@ const data = ref(
 			// report_pk: 1,
 			report_code: '123456789',
 			report_name: '2024 나이키 ESG 보고서',
-			enrollment_date: '2024-08-20',
+			enrollment_date: '2024-08-29',
 		})
 		.map((item, index) => ({ ...item, report_pk: index + 1 }))
 );

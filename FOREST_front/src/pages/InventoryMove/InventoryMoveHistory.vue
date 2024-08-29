@@ -47,7 +47,9 @@
 				</Column>
 				<Column field="status" bodyStyle="width: 6rem; min-width: 5rem" header="상태">
 					<template #body="{ data }">
-						<div class="status" :class="{ check: data.status === '요청' }">{{ data.status }}</div>
+						<div class="status" :class="{ check: data.status === '승인필요' }">
+							{{ data.status }}
+						</div>
 					</template>
 				</Column>
 				<Column field="request_name" bodyStyle="width: 28rem; min-width: 15rem" header="내역명"> </Column>
@@ -95,16 +97,24 @@ const data = ref(
 			request_name: '창고 이동 샘플',
 			request_code: '123456789',
 			status: '요청',
-			from: '창고2',
-			to: '창고1',
-			enrollment_date: '2024-08-20',
+			from: '창고1',
+			to: '창고2',
+			enrollment_date: '2024-08-29',
 		})
 		.map((item, index) => ({ ...item, move_pk: index + 1 }))
 		.map((item, index) => {
 			if (index > 4) {
 				item.status = '완료';
-				item.from = '창고1';
-				item.to = '창고2';
+				return item;
+			} else {
+				return item;
+			}
+		})
+		.map((item, index) => {
+			if (index < 2) {
+				item.status = '승인필요';
+				item.from = '창고2';
+				item.to = '창고1';
 				return item;
 			} else {
 				return item;

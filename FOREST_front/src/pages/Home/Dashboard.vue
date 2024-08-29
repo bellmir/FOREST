@@ -19,13 +19,13 @@
 							<th>연별</th>
 							<td>960,000 kg/원</td>
 							<td>540,000 kg/원</td>
-							<td class="success">420,000 kg/원</td>
+							<td class="success">- 420,000 kg/원</td>
 						</tr>
 						<tr>
 							<th>월별</th>
 							<td>80,000 kg/원</td>
 							<td>80,200 kg/원</td>
-							<td class="danger">200 kg/원</td>
+							<td class="danger">+ 200 kg/원</td>
 						</tr>
 					</table>
 				</div>

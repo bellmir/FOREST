@@ -68,10 +68,10 @@ const router = useRouter();
 const tokenStore = useTokenStore();
 const toast = useToast();
 
-// const isLoginPending = ref(false);
-// const timeId = ref();
+const isLoginPending = ref(false);
+const timeId = ref();
 
-const { mutateAsync: login, isPending: isLoginPending } = useLogin();
+// const { mutateAsync: login, isPending: isLoginPending } = useLogin();
 
 const { meta, errors, defineField, handleSubmit } = useForm({
 	validationSchema: yup.object({
@@ -89,38 +89,38 @@ const [password] = defineField('password');
 const onSubmitLogin = handleSubmit(async (values: any) => {
 	if (isLoginPending.value) return;
 
-	const res = await login(values);
-	if (res.data.access_token) {
-		tokenStore.setAccessToken(res.data.access_token);
-		toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
-		router.push('/');
-	} else {
-		toast.add({
-			severity: 'error',
-			summary: '실패',
-			detail: '사용자 정보가 일치하지 않습니다.',
-			group: 'bc',
-			life: 3000,
-		});
-	}
-	// isLoginPending.value = true;
-	// clearTimeout(timeId.value);
-	// timeId.value = setTimeout(() => {
-	// 	if (values.email === 'test@test.com' && values.password === 'test1234!') {
-	// 		tokenStore.setAccessToken('testToken');
-	// 		toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
-	// 		router.push('/');
-	// 	} else {
-	// 		toast.add({
-	// 			severity: 'error',
-	// 			summary: '실패',
-	// 			detail: '사용자 정보가 일치하지 않습니다.',
-	// 			group: 'bc',
-	// 			life: 3000,
-	// 		});
-	// 	}
-	// 	isLoginPending.value = false;
-	// }, Math.ceil(Math.random() * 300));
+	// const res = await login(values);
+	// if (res.data.access_token) {
+	// 	tokenStore.setAccessToken(res.data.access_token);
+	// 	toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
+	// 	router.push('/');
+	// } else {
+	// 	toast.add({
+	// 		severity: 'error',
+	// 		summary: '실패',
+	// 		detail: '사용자 정보가 일치하지 않습니다.',
+	// 		group: 'bc',
+	// 		life: 3000,
+	// 	});
+	// }
+	isLoginPending.value = true;
+	clearTimeout(timeId.value);
+	timeId.value = setTimeout(() => {
+		if (values.email === 'test@test.com' && values.password === 'test1234!') {
+			tokenStore.setAccessToken('testToken');
+			toast.add({ severity: 'success', summary: '성공', detail: '로그인 되었습니다.', group: 'bc', life: 3000 });
+			router.push('/');
+		} else {
+			toast.add({
+				severity: 'error',
+				summary: '실패',
+				detail: '사용자 정보가 일치하지 않습니다.',
+				group: 'bc',
+				life: 3000,
+			});
+		}
+		isLoginPending.value = false;
+	}, Math.ceil(Math.random() * 300));
 });
 </script>
 
@@ -170,14 +170,14 @@ const onSubmitLogin = handleSubmit(async (values: any) => {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--space-large);
+	gap: var(--space-x-large);
 	width: 100%;
-	margin-bottom: var(--space-3x-large);
+	margin-bottom: var(--space-2x-large);
 	@media screen and (max-width: 768px) {
 		margin-bottom: var(--space-2x-large);
 	}
 	.logo {
-		width: 15rem;
+		width: 12rem;
 		transform: translateX(-5px);
 		img {
 			@include mixin_fullImg($object-fit: contain);

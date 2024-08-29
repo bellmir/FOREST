@@ -10,7 +10,7 @@
 						<div class="product_name">품목명</div>
 						<div class="quantity">수량</div>
 					</li>
-					<li v-for="item in data" class="list_item">
+					<li v-for="item in data.slice(0, movePk > 2 ? 3 : 4)" class="list_item">
 						<div class="product_code">{{ item.product_code }}</div>
 						<div class="product_name">{{ item.product_name }}</div>
 						<div class="quantity">{{ item.quantity }}</div>
@@ -30,12 +30,18 @@
 
 			<div class="carbonAmount_content">
 				<ul>
-					<li><span class="carbon_title">운송 거리</span><span class="carbon_content distance">1,000 km</span></li>
-					<li><span class="carbon_title">탄소 소비량</span><span class="carbon_content amount">1,000 kg</span></li>
+					<li>
+						<span class="carbon_title">운송 거리</span
+						><span class="carbon_content distance">{{ movePk < 3 ? '128' : '1,000' }} km</span>
+					</li>
+					<li>
+						<span class="carbon_title">탄소 소비량</span
+						><span class="carbon_content amount">{{ movePk < 3 ? '140.8' : '1,100' }} kg</span>
+					</li>
 				</ul>
 			</div>
 		</div>
-		<div v-if="Number(movePk) < 5" class="detailAction">
+		<div v-if="movePk < 3" class="detailAction">
 			<button class="btn_confirm">승인</button>
 			<button class="btn_cancel">거절</button>
 		</div>
@@ -53,28 +59,28 @@ import { useToast } from 'primevue/usetoast';
 
 const route = useRoute();
 
-const movePk = route.params.movePk;
+const movePk = Number(route.params.movePk);
 
 const data = [
 	{
 		product_name: '품목1',
 		product_code: '123456',
-		quantity: 10,
+		quantity: 5,
 	},
 	{
 		product_name: '품목2',
-		product_code: '123456',
-		quantity: 10,
+		product_code: '234567',
+		quantity: 2,
 	},
 	{
 		product_name: '품목3',
-		product_code: '123456',
+		product_code: '34567',
 		quantity: 10,
 	},
 	{
 		product_name: '품목4',
-		product_code: '123456',
-		quantity: 10,
+		product_code: '45678',
+		quantity: 7,
 	},
 ];
 

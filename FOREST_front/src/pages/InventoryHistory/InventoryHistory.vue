@@ -110,7 +110,7 @@ const data = ref(
 			division: '입고',
 			product_name: '셀린 자수 배색 스트라이프 티셔츠',
 			count: '1,000',
-			enrollment_date: '2024-08-20',
+			enrollment_date: '2024-08-29',
 		})
 		.map((item, index) => ({ ...item, product_pk: index + 1 }))
 		.map((item, index) => {

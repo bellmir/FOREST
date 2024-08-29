@@ -61,6 +61,10 @@
 import { ref, onMounted, computed } from 'vue';
 // qrcode
 import { QrcodeStream } from 'vue-qrcode-reader';
+// primevue
+import { useToast } from 'primevue/usetoast';
+
+const toast = useToast();
 
 const error = ref();
 const qrCodeData = ref();
@@ -151,6 +155,13 @@ const onDetect = (decoded: any[]) => {
 		if (foundItem) {
 			addedProductList.value.push(foundItem);
 		}
+		toast.add({
+			severity: 'success',
+			summary: '성공',
+			detail: '품목이 추가되었습니다.',
+			group: 'bc',
+			life: 2500,
+		});
 	});
 };
 

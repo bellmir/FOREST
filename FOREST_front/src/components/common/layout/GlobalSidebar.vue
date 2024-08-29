@@ -22,7 +22,7 @@
 				</router-link>
 			</li>
 
-			<!--입출고내역-->
+			<!--상품 입출고-->
 			<li
 				id="InventoryHistory"
 				:class="selectedMenu === 'InventoryHistory' && 'on'"
@@ -32,7 +32,7 @@
 					<span class="icon_wrap">
 						<IconLeftMenuHistory />
 					</span>
-					<p>입출고내역</p>
+					<p>상품 입출고</p>
 				</router-link>
 			</li>
 

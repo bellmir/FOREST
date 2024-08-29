@@ -1,6 +1,6 @@
 <template>
 	<main class="InventoryHistory">
-		<h1 class="g_pageTitle">입출고내역</h1>
+		<h1 class="g_pageTitle">상품 입출고</h1>
 		<FilterBox class="searchFilter" @onSearch="onSearch" @onInit="onInit">
 			<FilterOptionDate
 				v-model:dateMode="filterDateMode"
@@ -9,7 +9,6 @@
 			/>
 			<FilterOption title="카테고리">
 				<div class="categoryOption">
-					<Select v-model="filterState" :options="filterStateList" showClear placeholder="상태" />
 					<Select v-model="filterDivision" :options="filterDivisionList" showClear placeholder="구분" />
 					<Select v-model="filterCategory" :options="filterCategoryList" showClear placeholder="항목" />
 				</div>
@@ -76,9 +75,8 @@ const route = useRoute();
 const router = useRouter();
 
 const searchCategoryList = ['상품명', '상품코드']; // 검색 카테고리 리스트
-const filterStateList = ['결제완료', '환불']; // 상태 필터 리스트
-const filterDivisionList = ['신규', '유지보수']; // 구분 필터 리스트
-const filterCategoryList = ['웹개발', '앱개발']; // 항목 필터 리스트
+const filterDivisionList = ['출고', '입고']; // 구분 필터 리스트
+const filterCategoryList = ['남성의류', '여성의류', '유니섹스', '액세서리', '기타']; // 항목 필터 리스트
 
 const filterDateMode = ref(); // 기간 필터 - 모드
 const filterStartDate = ref(); // 기간 필터 - 시작일

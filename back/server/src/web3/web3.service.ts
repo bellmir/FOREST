@@ -71,13 +71,35 @@ export class Web3Service implements OnModuleInit {
     let locationDatas = [];
 
     for (let i = 0; i < 50; i++) {
-      const locationData = await this.publicClient.readContract({
-        address: this.contractAddress,
-        abi: this.contractAbi,
-        functionName: 'getLocation',
-        args: [BigInt(i)],
-      });
-      locationDatas.push({ index: i, data: locationData });
+      try {
+        const locationData = await this.publicClient.readContract({
+          address: this.contractAddress,
+          abi: this.contractAbi,
+          functionName: 'getLocation',
+          args: [BigInt(i)],
+        });
+
+        const itemList = locationData[5].map((item, index) => {
+          return {
+            name: item,
+            amount: Number(locationData[6][index].toString()),
+          };
+        });
+
+        locationDatas.push({
+          index: i,
+          data: {
+            locationType: locationData[0],
+            name: locationData[1],
+            xCor: locationData[2],
+            yCor: locationData[3],
+            userList: locationData[4],
+            itemList: itemList,
+          },
+        });
+      } catch (e) {
+        console.error(i, e);
+      }
     }
 
     // console.log(locationData);
@@ -117,13 +139,25 @@ export class Web3Service implements OnModuleInit {
         userId.toString(),
       );
 
+      // Extract item names and amounts from item_list
+      const itemNames = location.item_list.map((item) => item.name);
+      const itemAmounts = location.item_list.map((item) => item.amount);
+
       try {
         // Call the createLocation function in the smart contract
         const createLocationTx = await this.walletClient.writeContract({
           address: this.contractAddress,
           abi: this.contractAbi,
           functionName: 'createLocation',
-          args: [locationType, name, xCor, yCor, chargedUserUUIDs],
+          args: [
+            locationType,
+            name,
+            xCor,
+            yCor,
+            chargedUserUUIDs,
+            itemNames,
+            itemAmounts,
+          ],
         });
 
         // Verify the location was correctly added

@@ -10,6 +10,7 @@ contract Logistics is ReentrancyGuardUpgradeable {
         string xCor;
         string yCor;
         mapping(string => uint256) itemList;
+        string[] itemNames;
         mapping(string => bool) authorizedUsers; // 접근 제어 최적화
         string[] userList; // 접근 권한이 있는 유저들의 UUID 목록
     }
@@ -70,7 +71,9 @@ contract Logistics is ReentrancyGuardUpgradeable {
         string memory _name,
         string memory _xCor,
         string memory _yCor,
-        string[] memory _chargedUserUUIDs
+        string[] memory _chargedUserUUIDs,
+        string[] memory itemNames, // Array of item names
+        uint256[] memory itemAmounts // Array of corresponding item amounts
     ) public {
         require(bytes(_name).length > 0, "Location name cannot be empty");
         require(
@@ -80,6 +83,10 @@ contract Logistics is ReentrancyGuardUpgradeable {
         require(
             !isLocationDuplicate(_name, _xCor, _yCor),
             "Location already exists"
+        );
+        require(
+            itemNames.length == itemAmounts.length,
+            "Items and amounts length mismatch"
         );
 
         Location storage newLocation = locations[locationCount];
@@ -91,6 +98,12 @@ contract Logistics is ReentrancyGuardUpgradeable {
         for (uint256 i = 0; i < _chargedUserUUIDs.length; i++) {
             newLocation.authorizedUsers[_chargedUserUUIDs[i]] = true;
             newLocation.userList.push(_chargedUserUUIDs[i]);
+        }
+
+        // Add items to the itemList
+        for (uint256 j = 0; j < itemNames.length; j++) {
+            newLocation.itemList[itemNames[j]] = itemAmounts[j];
+            newLocation.itemNames.push(itemNames[j]);
         }
 
         emit LocationCreated(locationCount, _name);
@@ -252,16 +265,32 @@ contract Logistics is ReentrancyGuardUpgradeable {
             string memory,
             string memory,
             string memory,
-            string[] memory
+            string[] memory,
+            string[] memory, // Array of item names
+            uint256[] memory // Array of item amounts
         )
     {
         Location storage location = locations[_locationId];
+
+        // Prepare arrays to return the item names and amounts
+        uint256 itemCount = location.userList.length; // Determine the number of items
+        string[] memory itemNames = new string[](itemCount);
+        uint256[] memory itemAmounts = new uint256[](itemCount);
+
+        // Populate the arrays from the itemList mapping
+        for (uint256 i = 0; i < itemCount; i++) {
+            itemNames[i] = location.itemNames[i];
+            itemAmounts[i] = location.itemList[location.userList[i]];
+        }
+
         return (
             location.locationType,
             location.name,
             location.xCor,
             location.yCor,
-            location.userList
+            location.userList,
+            itemNames,
+            itemAmounts
         );
     }
 

@@ -32,3 +32,62 @@
 <img width="272" alt="product (3)" src="https://github.com/user-attachments/assets/d6b45649-00dc-41be-aed1-1f9324eaff8d">  
 
 -----------------
+
+## Requirements
+
+- Node.js v20
+
+## Smart Contract Deployment
+
+Follow these steps to deploy the smart contract:
+
+1. Navigate to the `web3` directory:
+    ```bash
+    cd /back/web3
+    ```
+
+2. Install the required dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Clean the Hardhat cache:
+    ```bash
+    npx hardhat clean
+    ```
+
+4. Start the Hardhat node:
+    ```bash
+    npx hardhat node
+    ```
+
+5. Deploy the smart contract:
+    ```bash
+    npx ts-node script/deploy.ts
+    ```
+
+6. After deployment, copy the contract address from the output in the Hardhat node and add it to the `.env` file in the `server` directory under the key `CONTRACT_ADDRESS`.
+
+## Server Setup and Execution
+
+Follow these steps to set up and run the server:
+
+1. Navigate to the `server` directory:
+    ```bash
+    cd /back/server
+    ```
+
+2. Install the required dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Start the server in development mode:
+    ```bash
+    npm run start:dev
+    ```
+
+## API Documentation
+
+You can access the Swagger documentation for the API at:
+- [http://localhost:3000/api](http://localhost:3000/api)
